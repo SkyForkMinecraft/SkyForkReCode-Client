@@ -3,11 +3,13 @@ package net.skyfork;
 import com.cubk.event.EventManager;
 
 import net.minecraft.util.ResourceLocation;
+import net.skyfork.i18n.I18n;
 import net.skyfork.i18n.I18nManager;
 import net.skyfork.module.ModuleManager;
 import net.skyfork.user.RankManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.lwjgl.opengl.Display;
 
 /**
  * @author LangYa
@@ -36,6 +38,7 @@ public class Client implements Wrapper {
     public static void initClient() {
         logManager = LogManager.getLogger(Client.class);
         i18nManager = new I18nManager();
+        Display.setTitle(String.format("%s - %s | 1.8.9", I18n.format("client.name"), version));
         eventManager = new EventManager();
         moduleManager = new ModuleManager();
         rankManager = new RankManager();
