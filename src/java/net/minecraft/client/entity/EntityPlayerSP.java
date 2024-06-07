@@ -51,6 +51,8 @@ import net.minecraft.util.MovementInput;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.IInteractionObject;
 import net.minecraft.world.World;
+import net.skyfork.Client;
+import net.skyfork.event.impl.player.EventUpdate;
 
 public class EntityPlayerSP extends AbstractClientPlayer
 {
@@ -584,6 +586,12 @@ public class EntityPlayerSP extends AbstractClientPlayer
 
     public void onLivingUpdate()
     {
+
+        if (Client.eventManager != null) {
+            EventUpdate eventUpdate = new EventUpdate();
+            Client.eventManager.call(eventUpdate);
+        }
+
         if (this.sprintingTicksLeft > 0)
         {
             --this.sprintingTicksLeft;

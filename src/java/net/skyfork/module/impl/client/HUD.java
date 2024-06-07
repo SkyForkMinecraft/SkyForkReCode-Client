@@ -13,6 +13,6 @@ import net.skyfork.module.Module;
 public class HUD extends Module {
     @EventTarget
     public void onRender2D(EventRender2D event) {
-        mc.fontRendererObj.drawString(I18n.format("client.name"), 10, 10, -1);
+        mc.fontRendererObj.drawStringWithShadow(I18n.format("client.name"), 10, 10, -1);
     }
 }

@@ -329,13 +329,9 @@ public class GuiIngame extends Gui
             this.overlayPlayerList.updatePlayerList(false);
         }
 
-        EventRender2D eventRender2D = new EventRender2D(scaledresolution,partialTicks);
-        Client.eventManager.call(eventRender2D);
-
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GlStateManager.disableLighting();
         GlStateManager.enableAlpha();
-
     }
 
     protected void renderTooltip(ScaledResolution sr, float partialTicks)
@@ -355,6 +351,9 @@ public class GuiIngame extends Gui
             GlStateManager.enableBlend();
             GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
             RenderHelper.enableGUIStandardItemLighting();
+
+            EventRender2D eventRender2D = new EventRender2D(sr,partialTicks);
+            Client.eventManager.call(eventRender2D);
 
             for (int j = 0; j < 9; ++j)
             {

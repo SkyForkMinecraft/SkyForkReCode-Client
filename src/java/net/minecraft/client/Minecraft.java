@@ -168,7 +168,7 @@ import net.minecraft.world.storage.ISaveFormat;
 import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.WorldInfo;
 import net.skyfork.Client;
-import net.skyfork.event.impl.EventTick;
+import net.skyfork.event.impl.misc.EventTick;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.Validate;
 import org.apache.logging.log4j.LogManager;

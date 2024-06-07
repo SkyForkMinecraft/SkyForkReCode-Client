@@ -1,4 +1,4 @@
-package net.skyfork.event.impl;
+package net.skyfork.event.impl.misc;
 
 import com.cubk.event.impl.Event;
 

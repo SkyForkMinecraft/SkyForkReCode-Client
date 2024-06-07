@@ -5,6 +5,7 @@ import com.cubk.event.EventManager;
 import net.minecraft.util.ResourceLocation;
 import net.skyfork.i18n.I18nManager;
 import net.skyfork.module.ModuleManager;
+import net.skyfork.user.RankManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -26,6 +27,7 @@ public class Client implements Wrapper {
     public static EventManager eventManager;
     public static ModuleManager moduleManager;
     public static I18nManager i18nManager;
+    public static RankManager rankManager;
 
     public static ResourceLocation getLocation(String location) {
         return new ResourceLocation(name.toLowerCase() + "/" + location);
@@ -36,6 +38,7 @@ public class Client implements Wrapper {
         i18nManager = new I18nManager();
         eventManager = new EventManager();
         moduleManager = new ModuleManager();
+        rankManager = new RankManager();
     }
 
     public static void stopClient() {}

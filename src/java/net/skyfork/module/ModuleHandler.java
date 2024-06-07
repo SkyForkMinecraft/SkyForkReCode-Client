@@ -2,9 +2,7 @@ package net.skyfork.module;
 
 import com.cubk.event.annotations.EventTarget;
 import net.skyfork.Client;
-import net.skyfork.event.impl.EventTick;
-
-import java.util.Map;
+import net.skyfork.event.impl.misc.EventTick;
 
 /**
  * @author LangYa
