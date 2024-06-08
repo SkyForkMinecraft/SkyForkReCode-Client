@@ -2,7 +2,8 @@ package net.skyfork.module;
 
 import com.cubk.event.annotations.EventTarget;
 import net.skyfork.Client;
-import net.skyfork.event.impl.misc.EventTick;
+import net.skyfork.event.impl.misc.EventKeyInput;
+import net.skyfork.util.misc.ClientUtil;
 
 /**
  * @author LangYa
@@ -12,14 +13,11 @@ import net.skyfork.event.impl.misc.EventTick;
 public class ModuleHandler {
 
     @EventTarget
-    public void onTick(EventTick event) {
+    public void onKeyInput(EventKeyInput event) {
         for (Module module : Client.moduleManager.getModules()) {
-            if (module.isState()) {
-                module.onEnable();
-                Client.eventManager.register(module);
-            } else {
-                module.onDisable();
-                Client.eventManager.unregister(module);
+            if (module.getKey() == event.getKey()) {
+                module.toggle();
+                ClientUtil.chat(module.getName() + " is " + module.isState());
             }
         }
     }

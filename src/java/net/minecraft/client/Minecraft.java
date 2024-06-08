@@ -168,6 +168,7 @@ import net.minecraft.world.storage.ISaveFormat;
 import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.WorldInfo;
 import net.skyfork.Client;
+import net.skyfork.event.impl.misc.EventKeyInput;
 import net.skyfork.event.impl.misc.EventTick;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.Validate;
@@ -1762,6 +1763,11 @@ public class Minecraft implements IThreadListener, IPlayerUsage
             while (Keyboard.next())
             {
                 int k = Keyboard.getEventKey() == 0 ? Keyboard.getEventCharacter() + 256 : Keyboard.getEventKey();
+                EventKeyInput eventKeyInput = new EventKeyInput(k);
+                if (Client.eventManager != null) {
+                    Client.eventManager.call(eventKeyInput);
+                }
+                k = eventKeyInput.getKey();
                 KeyBinding.setKeyBindState(k, Keyboard.getEventKeyState());
 
                 if (Keyboard.getEventKeyState())

@@ -139,6 +139,9 @@ public class GuiIngame extends Gui
             this.renderTooltip(scaledresolution, partialTicks);
         }
 
+        EventRender2D eventRender2D = new EventRender2D(scaledresolution,partialTicks);
+        Client.eventManager.call(eventRender2D);
+
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(icons);
         GlStateManager.enableBlend();
@@ -351,9 +354,6 @@ public class GuiIngame extends Gui
             GlStateManager.enableBlend();
             GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
             RenderHelper.enableGUIStandardItemLighting();
-
-            EventRender2D eventRender2D = new EventRender2D(sr,partialTicks);
-            Client.eventManager.call(eventRender2D);
 
             for (int j = 0; j < 9; ++j)
             {

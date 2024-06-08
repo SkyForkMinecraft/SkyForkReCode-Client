@@ -25,15 +25,15 @@ public class RankManager {
         set(e,"lindsey614","SponsorShip");
 
         // 2696478875 生病龙虾 SickLobster
-        set(e,"UnfairLobster","群管理员");
+        set(e,"UnfairLobster","Staff");
 
         // 3109983896 high ping hyp group admin
         set(e,"f_lyx","Frisk++");
         set(e,"lyx_frisk","Frisk++");
 
         // langya
-        set(e,"Lang7a","客户端作者");
-        set(e,"LangYa466","客户端作者");
+        set(e,"Lang7a","Admin");
+        set(e,"LangYa466","Admin");
     }
 
     private String getRank(String str, String color) {

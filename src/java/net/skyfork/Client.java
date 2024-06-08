@@ -2,10 +2,15 @@ package net.skyfork;
 
 import com.cubk.event.EventManager;
 
+import com.cubk.event.annotations.EventTarget;
 import net.minecraft.util.ResourceLocation;
+import net.skyfork.event.impl.render.EventRender2D;
 import net.skyfork.i18n.I18n;
 import net.skyfork.i18n.I18nManager;
+import net.skyfork.mode.ModeManager;
+import net.skyfork.module.Module;
 import net.skyfork.module.ModuleManager;
+import net.skyfork.ui.font.FontManager;
 import net.skyfork.user.RankManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,9 +31,10 @@ public class Client implements Wrapper {
     public static Logger logManager;
 
     // managers
-    public static EventManager eventManager;
-    public static ModuleManager moduleManager;
     public static I18nManager i18nManager;
+    public static EventManager eventManager;
+    public static ModeManager modeManager;
+    public static ModuleManager moduleManager;
     public static RankManager rankManager;
 
     public static ResourceLocation getLocation(String location) {
@@ -36,14 +42,29 @@ public class Client implements Wrapper {
     }
 
     public static void initClient() {
-        logManager = LogManager.getLogger(Client.class);
         i18nManager = new I18nManager();
-        Display.setTitle(String.format("%s - %s | 1.8.9", I18n.format("client.name"), version));
         eventManager = new EventManager();
+        eventManager.register(new Client());
+        logManager = LogManager.getLogger(Client.class);
+        Display.setTitle(String.format("%s - %s | 1.8.9", I18n.format("client.name"), version));
+        modeManager = new ModeManager();
         moduleManager = new ModuleManager();
         rankManager = new RankManager();
     }
 
     public static void stopClient() {}
+
+    @EventTarget
+    private void onRender2D(EventRender2D event) {
+        FontManager.M30.drawStringWithShadow(I18n.format("client.name"), 10, 10, -1);
+
+        if (moduleManager != null) {
+            int y = 0;
+            for (Module module : moduleManager.getModules()) {
+                FontManager.S16.drawRightAlignedStringWithShadow(module.getName(), event.getScaledResolution().getScaledWidth() - 10, y, -1);
+                y += 16;
+            }
+        }
+    }
 
 }

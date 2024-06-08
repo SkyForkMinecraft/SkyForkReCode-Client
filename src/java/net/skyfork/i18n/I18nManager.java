@@ -22,7 +22,7 @@ public class I18nManager implements Wrapper {
 
     private static final Splitter splitter = Splitter.on('=').limit(2);
     private static final Pattern pattern = Pattern.compile("%(\\d+\\$)?[\\d.]*[df]");
-    public final LanguageType languageType = LanguageType.Chinese;
+    public final LanguageType languageType = LanguageType.English;
 
     public I18nManager() {
         I18n.properties = new HashMap<>();
