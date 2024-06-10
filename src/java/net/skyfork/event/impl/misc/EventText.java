@@ -1,14 +1,13 @@
 package net.skyfork.event.impl.misc;
 
-import com.cubk.event.impl.Cancellable;
-import com.cubk.event.impl.Event;
+import net.skyfork.event.impl.Cancellable;
 
 /**
  * @author LangYa
  * @since 2024/6/7 下午12:26
  */
 
-public class EventText implements Cancellable, Event {
+public class EventText implements Cancellable {
     private boolean cancel;
     public String text;
 

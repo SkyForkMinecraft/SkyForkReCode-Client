@@ -1,6 +1,5 @@
 package net.skyfork.event.impl.misc;
 
-import com.cubk.event.impl.Event;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,7 +10,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class EventKeyInput implements Event {
+public class EventKeyInput {
     private int key;
 
     public EventKeyInput(int key) {

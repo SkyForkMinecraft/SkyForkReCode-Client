@@ -9,6 +9,10 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
+import net.skyfork.Client;
+import net.skyfork.drag.Drag;
+import net.skyfork.font.FontManager;
+import net.skyfork.util.misc.MouseUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,6 +30,7 @@ public class GuiChat extends GuiScreen
     private List<String> foundPlayerNames = Lists.<String>newArrayList();
     protected GuiTextField inputField;
     private String defaultInputFieldText = "";
+    private Drag drag;
 
     public GuiChat()
     {
@@ -140,6 +145,25 @@ public class GuiChat extends GuiScreen
 
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException
     {
+
+        Client.dragManager.getDragList().forEach(drag ->  {
+            if (MouseUtil.isHovering(drag.getX(), drag.getY(), drag.getWidth(), drag.getHeight(), mouseX, mouseY)) {
+
+                drag.setDragging(true);
+                this.drag = drag;
+
+                if (mouseButton == 0) {
+                    float tempX = drag.getX();
+                    float tempY = drag.getY();
+                    drag.setX(mouseX - tempX);
+                    drag.setY(mouseY - tempY);
+                } else {
+                    drag.setDragging(false);
+                    this.drag = null;
+                }
+            }
+        });
+
         if (mouseButton == 0)
         {
             IChatComponent ichatcomponent = this.mc.ingameGUI.getChatGUI().getChatComponent(Mouse.getX(), Mouse.getY());
@@ -268,6 +292,28 @@ public class GuiChat extends GuiScreen
             this.handleComponentHover(ichatcomponent, mouseX, mouseY);
         }
 
+        Client.dragManager.getDragList().forEach(drag1 -> {
+            if (MouseUtil.isHovering(drag1.getX(), drag1.getY(), drag1.getWidth(), drag1.getHeight(), mouseX, mouseY)) {
+
+                // RenderUtil.drawBorder(drag1.getX() - 4, drag1.getY() - 4,  drag1.getWidth() + 8, drag1.getHeight() + 8, 1, -1);
+                if (Client.i18nManager != null) {
+                    String text = null;
+                    switch (Client.i18nManager.languageType) {
+                        case English: {
+                            text = String.format("PosX: %s PosY: %s", drag1.getX(), drag1.getY());
+                            break;
+                        }
+                        case Chinese: {
+                            text = String.format("X轴: %s Y轴: %s", drag1.getX(), drag1.getY());
+                        }
+                    }
+                    if (text != null) {
+                        FontManager.S14.drawCenteredStringWithShadow(text, drag1.getX() + 37, drag1.getY() - 12, -1);
+                    }
+
+                }
+            }
+        });
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
@@ -306,4 +352,14 @@ public class GuiChat extends GuiScreen
     {
         return false;
     }
+
+    @Override
+    protected void mouseReleased(int mouseX, int mouseY, int state) {
+        Client.dragManager.getDragList().forEach(drag -> {
+            if (drag.isDragging()) {
+                drag.setDragging(false);
+            }
+        });
+    }
+
 }

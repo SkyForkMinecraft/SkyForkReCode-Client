@@ -19,6 +19,24 @@ public class ModuleManager {
         Client.eventManager.register(new ModuleHandler());
     }
 
+    public Module getModule(Module module) {
+        for (Module module2 : modules) {
+            if (module == module2) {
+                return module2;
+            }
+        }
+        return null;
+    }
+
+    public Module getModule(String moduleName) {
+        for (Module module2 : modules) {
+            if (module2.getName() == moduleName) {
+                return module2;
+            }
+        }
+        return null;
+    }
+
     private void register(Module module,String moduleName) {
         module.setName(moduleName);
         modules.add(module);

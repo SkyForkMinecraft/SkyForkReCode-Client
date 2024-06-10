@@ -1,6 +1,6 @@
 package net.skyfork.module;
 
-import com.cubk.event.annotations.EventTarget;
+import net.skyfork.event.annotations.EventTarget;
 import net.skyfork.Client;
 import net.skyfork.event.impl.misc.EventKeyInput;
 import net.skyfork.util.misc.ClientUtil;
@@ -13,13 +13,13 @@ import net.skyfork.util.misc.ClientUtil;
 public class ModuleHandler {
 
     @EventTarget
-    public void onKeyInput(EventKeyInput event) {
-        for (Module module : Client.moduleManager.getModules()) {
-            if (module.getKey() == event.getKey()) {
+    private void onKeyInput(EventKeyInput event) {
+         Client.moduleManager.getModules().forEach(module ->  {
+             if (module.getKey() == event.getKey()) {
                 module.toggle();
                 ClientUtil.chat(module.getName() + " is " + module.isState());
             }
-        }
+         });
     }
 
 }

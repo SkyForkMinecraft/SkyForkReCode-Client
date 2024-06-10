@@ -1,4 +1,4 @@
-package net.skyfork.ui.font;
+package net.skyfork.font;
 
 import net.minecraft.client.Minecraft;
 import net.skyfork.Client;

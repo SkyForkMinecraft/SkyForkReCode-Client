@@ -1,4 +1,4 @@
-package net.skyfork.ui.font;
+package net.skyfork.font;
 
 import lombok.Getter;
 import net.minecraft.client.renderer.GlStateManager;

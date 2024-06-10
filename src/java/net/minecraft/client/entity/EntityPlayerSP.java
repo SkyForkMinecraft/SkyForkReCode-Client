@@ -52,6 +52,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.IInteractionObject;
 import net.minecraft.world.World;
 import net.skyfork.Client;
+import net.skyfork.event.impl.misc.EventChat;
 import net.skyfork.event.impl.player.EventUpdate;
 
 public class EntityPlayerSP extends AbstractClientPlayer
@@ -227,6 +228,11 @@ public class EntityPlayerSP extends AbstractClientPlayer
 
     public void sendChatMessage(String message)
     {
+        EventChat eventChat = new EventChat(message);
+        if (Client.eventManager != null) {
+            Client.eventManager.call(eventChat);
+            message = eventChat.getMessage();
+        }
         this.sendQueue.addToSendQueue(new C01PacketChatMessage(message));
     }
 

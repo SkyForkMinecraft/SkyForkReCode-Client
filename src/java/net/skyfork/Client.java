@@ -1,16 +1,18 @@
 package net.skyfork;
 
-import com.cubk.event.EventManager;
+import net.skyfork.event.EventManager;
 
-import com.cubk.event.annotations.EventTarget;
+import net.skyfork.event.annotations.EventTarget;
 import net.minecraft.util.ResourceLocation;
+import net.skyfork.command.CommandManager;
+import net.skyfork.drag.DragManager;
 import net.skyfork.event.impl.render.EventRender2D;
 import net.skyfork.i18n.I18n;
 import net.skyfork.i18n.I18nManager;
 import net.skyfork.mode.ModeManager;
 import net.skyfork.module.Module;
 import net.skyfork.module.ModuleManager;
-import net.skyfork.ui.font.FontManager;
+import net.skyfork.font.FontManager;
 import net.skyfork.user.RankManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,6 +37,8 @@ public class Client implements Wrapper {
     public static EventManager eventManager;
     public static ModeManager modeManager;
     public static ModuleManager moduleManager;
+    public static CommandManager commandManager;
+    public static DragManager dragManager;
     public static RankManager rankManager;
 
     public static ResourceLocation getLocation(String location) {
@@ -48,7 +52,9 @@ public class Client implements Wrapper {
         logManager = LogManager.getLogger(Client.class);
         Display.setTitle(String.format("%s - %s | 1.8.9", I18n.format("client.name"), version));
         modeManager = new ModeManager();
+        commandManager = new CommandManager();
         moduleManager = new ModuleManager();
+        dragManager = new DragManager();
         rankManager = new RankManager();
     }
 
