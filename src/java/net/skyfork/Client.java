@@ -2,7 +2,7 @@ package net.skyfork;
 
 import net.skyfork.event.EventManager;
 
-import net.skyfork.event.annotations.EventTarget;
+import net.skyfork.event.EventTarget;
 import net.minecraft.util.ResourceLocation;
 import net.skyfork.command.CommandManager;
 import net.skyfork.drag.DragManager;

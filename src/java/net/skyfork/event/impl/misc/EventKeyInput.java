@@ -2,6 +2,7 @@ package net.skyfork.event.impl.misc;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.skyfork.event.impl.Event;
 
 /**
  * @author LangYa
@@ -10,11 +11,12 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class EventKeyInput {
+public class EventKeyInput implements Event {
     private int key;
+    private boolean keyState;
 
-    public EventKeyInput(int key) {
+    public EventKeyInput(int key, final boolean keyState) {
         this.key = key;
+        this.keyState = keyState;
     }
-
 }

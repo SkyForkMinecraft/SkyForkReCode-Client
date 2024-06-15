@@ -21,7 +21,7 @@ public class Module implements Wrapper {
     private Category category;
     private boolean state;
     private int key;
-    private final List<AbstractValue> values = new ArrayList<>();
+    private final List<AbstractValue<?>> values = new ArrayList<>();
     public void onEnable() {}
     public void onDisable() {}
 

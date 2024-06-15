@@ -1,6 +1,6 @@
 package net.skyfork.command;
 
-import net.skyfork.event.annotations.EventTarget;
+import net.skyfork.event.EventTarget;
 import lombok.Getter;
 import lombok.Setter;
 import net.skyfork.Client;

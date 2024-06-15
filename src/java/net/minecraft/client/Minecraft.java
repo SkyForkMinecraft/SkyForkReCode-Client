@@ -1763,14 +1763,14 @@ public class Minecraft implements IThreadListener, IPlayerUsage
             while (Keyboard.next())
             {
                 int k = Keyboard.getEventKey() == 0 ? Keyboard.getEventCharacter() + 256 : Keyboard.getEventKey();
-                EventKeyInput eventKeyInput = new EventKeyInput(k);
+                EventKeyInput eventKeyInput = new EventKeyInput(k, Keyboard.getEventKeyState());
                 if (Client.eventManager != null) {
                     Client.eventManager.call(eventKeyInput);
                 }
                 k = eventKeyInput.getKey();
-                KeyBinding.setKeyBindState(k, Keyboard.getEventKeyState());
+                KeyBinding.setKeyBindState(k, eventKeyInput.isKeyState());
 
-                if (Keyboard.getEventKeyState())
+                if (eventKeyInput.isKeyState())
                 {
                     KeyBinding.onTick(k);
                 }
@@ -1794,7 +1794,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
 
                 this.dispatchKeypresses();
 
-                if (Keyboard.getEventKeyState())
+                if (eventKeyInput.isKeyState())
                 {
                     if (k == 62 && this.entityRenderer != null)
                     {

@@ -1,6 +1,6 @@
 package net.skyfork.module;
 
-import net.skyfork.event.annotations.EventTarget;
+import net.skyfork.event.EventTarget;
 import net.skyfork.Client;
 import net.skyfork.event.impl.misc.EventKeyInput;
 import net.skyfork.util.misc.ClientUtil;

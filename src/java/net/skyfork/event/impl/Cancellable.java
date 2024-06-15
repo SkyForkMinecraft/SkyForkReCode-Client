@@ -1,6 +1,6 @@
 package net.skyfork.event.impl;
 
-public interface Cancellable {
+public interface Cancellable extends Event {
 
     boolean isCancelled();
 

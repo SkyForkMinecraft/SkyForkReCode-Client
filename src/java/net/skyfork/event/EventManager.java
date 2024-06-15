@@ -1,58 +1,43 @@
 package net.skyfork.event;
 
-import net.skyfork.event.annotations.EventTarget;
+import net.skyfork.event.impl.Event;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.util.*;
 
 /**
- * @author LangYa
+ * @author LangYa、verym0re
  * @since 2024/6/5 下午8:34
  */
 
 public class EventManager {
-    private final Map<Integer, List<Method>> eventMap;
+    private final Map<Object, Map<Integer, List<EventHandler>>> eventMap;
 
     public EventManager() {
         this.eventMap = new HashMap<>();
     }
 
     public void register(Object target) {
-        Method[] methods = target.getClass().getDeclaredMethods();
+        Class<?> present = target.getClass();
+        Method[] methods = present.getDeclaredMethods();
         for (Method method : methods) {
+            final boolean accessible = method.isAccessible();
+            method.setAccessible(true);
             if (method.isAnnotationPresent(EventTarget.class)) {
+                final Type event = method.getParameterTypes()[0];
                 EventTarget priority = method.getAnnotation(EventTarget.class);
-                int value = priority.value();
-                eventMap.computeIfAbsent(value, k -> new ArrayList<>()).add(method);
+                eventMap.computeIfAbsent(event, k -> new TreeMap<>()).computeIfAbsent(priority.value(), k -> new ArrayList<>()).add(new EventHandler(method, target, present, priority));
             }
+            method.setAccessible(accessible);
         }
     }
 
     public void unregister(Object target) {
-        eventMap.remove(target);
+        eventMap.values().forEach(eventPriority -> eventPriority.values().forEach(callers -> callers.removeIf(handler -> handler.clazz.equals(target))));
     }
 
-    private int getMethodPriority(Method method) {
-        EventTarget annotation = method.getAnnotation(EventTarget.class);
-        return annotation != null ? annotation.value() : 0;
+    public void call(Event event) {
+        eventMap.get(event.getClass()).values().forEach(callers -> callers.forEach(handler -> handler.fire(event)));
     }
-
-    public void call(Object event) {
-        List<Method> methods = new ArrayList<>();
-        for (List<Method> methodList : eventMap.values()) {
-            methods.addAll(methodList);
-        }
-        methods.sort(Comparator.comparingInt(this::getMethodPriority));
-
-        for (Method method : methods) {
-            try {
-                // 设置私有方法可访问
-                method.setAccessible(true);
-                method.invoke(method.getDeclaringClass().newInstance(), event);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
 }

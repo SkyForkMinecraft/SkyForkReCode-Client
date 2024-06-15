@@ -1,6 +1,6 @@
 package net.skyfork.user;
 
-import net.skyfork.event.annotations.EventTarget;
+import net.skyfork.event.EventTarget;
 import net.minecraft.util.EnumChatFormatting;
 import net.skyfork.Client;
 import net.skyfork.event.impl.misc.EventText;
