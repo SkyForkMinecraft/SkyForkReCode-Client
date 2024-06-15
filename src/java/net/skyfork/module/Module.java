@@ -31,8 +31,8 @@ public class Module implements Wrapper {
             onEnable();
             Client.eventManager.register(this);
         } else {
-            onDisable();
             Client.eventManager.unregister(this);
+            onDisable();
         }
     }
 
