@@ -24,8 +24,11 @@ public final class EventManager {
     /**
      * HashMap containing all the registered MethodData sorted on the event parameters of the methods.
      */
-    private static final Map<Class<? extends Event>, List<MethodData>> REGISTRY_MAP = new HashMap<>();
+    private static Map<Class<? extends Event>, List<MethodData>> REGISTRY_MAP;
 
+    public EventManager() {
+        REGISTRY_MAP = new HashMap<>();
+    }
     /**
      * Registers all the methods marked with the EventTarget annotation in the class of the given Object.
      *

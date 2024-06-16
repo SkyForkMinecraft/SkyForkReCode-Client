@@ -47,6 +47,7 @@ public class Client implements Wrapper {
 
     public static void initClient() {
         i18nManager = new I18nManager();
+        eventManager = new EventManager();
         eventManager.register(new Client());
         logManager = LogManager.getLogger(Client.class);
         Display.setTitle(String.format("%s - %s | 1.8.9", I18n.format("client.name"), version));
