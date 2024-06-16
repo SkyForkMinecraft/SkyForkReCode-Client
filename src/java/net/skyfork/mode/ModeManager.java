@@ -13,6 +13,7 @@ public class ModeManager {
         clientMode = ClientMode.Hack;
         themeMode = ThemeMode.Dark;
     }
+
     public boolean isHack() {
         return clientMode == ClientMode.Hack;
     }

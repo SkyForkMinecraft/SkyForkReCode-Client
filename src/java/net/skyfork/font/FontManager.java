@@ -15,7 +15,7 @@ public class FontManager {
     public static FontDrawer S16 = getFont("sfui", 16);
     public static FontDrawer S18 = getFont("sfui", 18);
     public static FontDrawer S20 = getFont("sfui", 20);
-    public static FontDrawer M30 = getFont("sfui", 30);
+    public static FontDrawer S30 = getFont("sfui", 30);
     public static FontDrawer S50 = getFont("sfui", 50);
 
     public static FontDrawer getFont(String name, int size) {

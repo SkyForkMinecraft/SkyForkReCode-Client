@@ -14,12 +14,12 @@ public class ModuleHandler {
 
     @EventTarget
     private void onKeyInput(EventKeyInput event) {
-         Client.moduleManager.getModules().forEach(module ->  {
-             if (module.getKey() == event.getKey()) {
+        Client.moduleManager.getModules().forEach(module ->  {
+            if (module.getKey() == event.getKey()) {
                 module.toggle();
                 ClientUtil.chat(module.getName() + " is " + module.isState());
             }
-         });
+        });
     }
 
 }

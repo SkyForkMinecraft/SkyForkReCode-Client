@@ -10,6 +10,7 @@ import net.skyfork.event.impl.render.EventRender2D;
 import net.skyfork.i18n.I18n;
 import net.skyfork.i18n.I18nManager;
 import net.skyfork.mode.ModeManager;
+import net.skyfork.mode.ThemeMode;
 import net.skyfork.module.Module;
 import net.skyfork.module.ModuleManager;
 import net.skyfork.font.FontManager;
@@ -62,7 +63,13 @@ public class Client implements Wrapper {
 
     @EventTarget
     private void onRender2D(EventRender2D event) {
-        FontManager.M30.drawStringWithShadow(I18n.format("client.name"), 10, 10, -1);
+        if (modeManager.isDark()) {
+            FontManager.S30.drawStringWithOutline(I18n.format("client.name"), 10, 10, -1,0);
+        } else {
+            FontManager.S30.drawStringWithOutline(I18n.format("client.name"), 10, 10, 0,-1);
+        }
+
+        FontManager.S30.drawStringWithShadow(I18n.format("client.name"), 10, 10, -1);
 
         if (moduleManager != null) {
             int y = 0;

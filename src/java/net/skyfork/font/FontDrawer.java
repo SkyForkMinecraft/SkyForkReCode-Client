@@ -232,6 +232,14 @@ public class FontDrawer {
         drawString(s, x, y, color);
     }
 
+    public void drawStringWithOutline(String s, double x, double y, int color, int outlineColor) {
+        drawString(s, x + 0.5, y, outlineColor);
+        drawString(s, x - 0.5, y, outlineColor);
+        drawString(s, x, y + 0.5, outlineColor);
+        drawString(s, x, y - 0.5, outlineColor);
+        drawString(s, x, y, color);
+    }
+
     public void drawStringWithShadow(String s, double x, double y, int color) {
         int alpha = ColorUtil.getAlpha(color);
 
