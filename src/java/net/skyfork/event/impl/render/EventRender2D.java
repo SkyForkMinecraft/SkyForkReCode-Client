@@ -2,6 +2,7 @@ package net.skyfork.event.impl.render;
 
 import lombok.Getter;
 import net.minecraft.client.gui.ScaledResolution;
+import net.skyfork.event.impl.Event;
 
 /**
  * @author LangYa
@@ -9,7 +10,7 @@ import net.minecraft.client.gui.ScaledResolution;
  */
 
 @Getter
-public class EventRender2D {
+public class EventRender2D implements Event {
     private final ScaledResolution scaledResolution;
     private final float partialTicks;
 
