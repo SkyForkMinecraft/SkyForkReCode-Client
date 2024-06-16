@@ -1,5 +1,6 @@
 package net.skyfork.command;
 
+import net.skyfork.command.impl.BindCommand;
 import net.skyfork.event.EventTarget;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,7 +27,8 @@ public class CommandManager {
         CommandHandler.commandManager = this;
         CommandHandler.tabComplete = new ArrayList<>();
         registerCommands(
-                new ToggleCommand("toggle")
+                new ToggleCommand("toggle"),
+                new BindCommand("bind")
         );
         Client.eventManager.register(new CommandHandler());
     }

@@ -27,7 +27,7 @@ public abstract class Command {
         final List<String> basicFinder = getComplete(args.length - 1).stream().filter(name -> name.toLowerCase().startsWith(lastString.toLowerCase())).collect(Collectors.toList());
 
         if (skipped) {
-            if (basicFinder.get(0).equalsIgnoreCase(lastString.toLowerCase())) {
+            if (basicFinder.size() > 0 && basicFinder.get(0).equalsIgnoreCase(lastString.toLowerCase())) {
                 return getComplete(args.length);
             }
         } else {

@@ -32,6 +32,17 @@ public class KeyBinding implements Comparable<KeyBinding>
         }
     }
 
+    public static void updateKeyBindState(int keyCode) {
+        if (keyCode != 0) {
+            KeyBinding keybinding = (KeyBinding)hash.lookup(keyCode);
+
+            if (keybinding != null)
+            {
+                keybinding.pressed = GameSettings.isKeyDown(keybinding);
+            }
+        }
+    }
+
     public static void setKeyBindState(int keyCode, boolean pressed)
     {
         if (keyCode != 0)

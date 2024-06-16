@@ -2,46 +2,46 @@ package net.skyfork.module;
 
 import lombok.Getter;
 import net.skyfork.Client;
+import net.skyfork.module.impl.movement.SprintMod;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author LangYa
  * @since 2024/6/6 下午6:50
  */
-@Getter
 public class ModuleManager {
-    private final List<Module> modules;
+    private final Map<Class<? extends Module>, Module> moduleMap;
+
+    public List<Module> getModules() {
+        return new ArrayList<>(moduleMap.values());
+    }
 
     public ModuleManager() {
-        modules = new ArrayList<>();
+        moduleMap = new HashMap<>();
         Client.eventManager.register(new ModuleHandler());
     }
 
-    public Module getModule(Module module) {
-        for (Module module2 : modules) {
-            if (module == module2) {
-                return module2;
-            }
-        }
-        return null;
+    public Module getModule(Class<? extends Module> module) {
+        return moduleMap.get(module);
     }
 
     public Module getModule(String moduleName) {
-        for (Module module2 : modules) {
-            if (module2.getName() == moduleName) {
-                return module2;
+        for (Module module : getModules()) {
+            if (module.getName().equals(moduleName)) {
+                return module;
             }
         }
         return null;
     }
 
-    private void register(Module module,String moduleName) {
-        module.setName(moduleName);
-        modules.add(module);
-        // 后面写clickgui
-        module.setState(true);
+    public void register() {
+        register(
+                new SprintMod()
+        );
     }
 
+    private void register(Module ... modules) {
+        Arrays.asList(modules).forEach(module -> moduleMap.put(module.getClass(), module));
+    }
 }
