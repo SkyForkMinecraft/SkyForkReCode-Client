@@ -1,10 +1,11 @@
 package net.skyfork.module;
 
 import lombok.Getter;
-import net.skyfork.Client;
+import net.skyfork.event.EventManager;
+import net.skyfork.i18n.I18n;
+import net.skyfork.module.hack.combat.KillAura;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 /**
  * @author LangYa
@@ -12,15 +13,20 @@ import java.util.List;
  */
 @Getter
 public class ModuleManager {
-    private final List<Module> modules;
+    private final HashMap<String,Module> modules;
 
     public ModuleManager() {
-        modules = new ArrayList<>();
-        Client.eventManager.register(new ModuleHandler());
+        modules = new HashMap<>();
+        EventManager.register(new ModuleHandler());
+        init();
+    }
+
+    private void init() {
+        register(new KillAura(), I18n.format(""));
     }
 
     public Module getModule(Module module) {
-        for (Module module2 : modules) {
+        for (Module module2 : modules.values()) {
             if (module == module2) {
                 return module2;
             }
@@ -29,7 +35,7 @@ public class ModuleManager {
     }
 
     public Module getModule(String moduleName) {
-        for (Module module2 : modules) {
+        for (Module module2 : modules.values()) {
             if (module2.getName() == moduleName) {
                 return module2;
             }
@@ -38,9 +44,7 @@ public class ModuleManager {
     }
 
     private void register(Module module,String moduleName) {
-        module.setName(moduleName);
-        modules.add(module);
-        // 后面写clickgui
+        modules.put(moduleName,module);
         module.setState(true);
     }
 

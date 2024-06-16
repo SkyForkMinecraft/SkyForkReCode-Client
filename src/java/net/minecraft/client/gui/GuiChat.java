@@ -119,7 +119,7 @@ public class GuiChat extends GuiScreen
                 if (s.startsWith(".")) {
                     final String[] arr = s.split(" ");
 
-                    final Command command = Client.commandManager.getCommand(arr[0].replaceFirst(".", ""));
+                    final Command command = Client.getInstance().getCommandManager().getCommand(arr[0].replaceFirst(".", ""));
 
                     if (command == null) {
                         ClientUtil.chatPrefix(I18n.format("command.toggle.notfound"));
@@ -167,7 +167,7 @@ public class GuiChat extends GuiScreen
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException
     {
 
-        Client.dragManager.getDragList().forEach(drag ->  {
+        Client.getInstance().getDragManager().getDragList().forEach(drag ->  {
             if (MouseUtil.isHovering(drag.getX(), drag.getY(), drag.getWidth(), drag.getHeight(), mouseX, mouseY)) {
 
                 drag.setDragging(true);
@@ -338,13 +338,13 @@ public class GuiChat extends GuiScreen
             this.handleComponentHover(ichatcomponent, mouseX, mouseY);
         }
 
-        Client.dragManager.getDragList().forEach(drag1 -> {
+        Client.getInstance().getDragManager().getDragList().forEach(drag1 -> {
             if (MouseUtil.isHovering(drag1.getX(), drag1.getY(), drag1.getWidth(), drag1.getHeight(), mouseX, mouseY)) {
 
                 // RenderUtil.drawBorder(drag1.getX() - 4, drag1.getY() - 4,  drag1.getWidth() + 8, drag1.getHeight() + 8, 1, -1);
-                if (Client.i18nManager != null) {
+                if (Client.getInstance().getI18nManager() != null) {
                     String text = null;
-                    switch (Client.i18nManager.languageType) {
+                    switch (Client.getInstance().getI18nManager().languageType) {
                         case English: {
                             text = String.format("PosX: %s PosY: %s", drag1.getX(), drag1.getY());
                             break;
@@ -401,7 +401,7 @@ public class GuiChat extends GuiScreen
 
     @Override
     protected void mouseReleased(int mouseX, int mouseY, int state) {
-        Client.dragManager.getDragList().forEach(drag -> {
+        Client.getInstance().getDragManager().getDragList().forEach(drag -> {
             if (drag.isDragging()) {
                 drag.setDragging(false);
             }

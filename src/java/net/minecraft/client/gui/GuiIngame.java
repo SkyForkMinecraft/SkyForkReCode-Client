@@ -44,6 +44,7 @@ import net.minecraft.util.StringUtils;
 import net.minecraft.world.border.WorldBorder;
 import net.optifine.CustomColors;
 import net.skyfork.Client;
+import net.skyfork.event.EventManager;
 import net.skyfork.event.impl.render.EventRender2D;
 
 public class GuiIngame extends Gui
@@ -140,7 +141,7 @@ public class GuiIngame extends Gui
         }
 
         EventRender2D eventRender2D = new EventRender2D(scaledresolution,partialTicks);
-        Client.eventManager.call(eventRender2D);
+        EventManager.call(eventRender2D);
 
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(icons);

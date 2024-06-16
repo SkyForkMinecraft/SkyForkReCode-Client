@@ -1,16 +1,12 @@
 package net.skyfork.command;
 
-import net.skyfork.event.EventTarget;
+import net.skyfork.event.EventManager;
 import lombok.Getter;
 import lombok.Setter;
-import net.skyfork.Client;
 import net.skyfork.command.impl.ToggleCommand;
-import net.skyfork.event.impl.misc.EventChat;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author LvZiQiao，LangYa
@@ -28,7 +24,7 @@ public class CommandManager {
         registerCommands(
                 new ToggleCommand("toggle")
         );
-        Client.eventManager.register(new CommandHandler());
+        EventManager.register(new CommandHandler());
     }
 
     private void registerCommands(Command ... commands) {

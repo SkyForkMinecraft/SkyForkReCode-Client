@@ -1,11 +1,11 @@
 package net.skyfork.event;
 
-import java.lang.annotation.*;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
-@Documented
-@Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface EventTarget {
 
     int value() default 10;
+
 }

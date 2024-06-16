@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.skyfork.Client;
+import net.skyfork.event.EventManager;
 import net.skyfork.event.impl.misc.EventText;
 import net.skyfork.util.misc.ColorUtil;
 import net.skyfork.util.render.GLUtils;
@@ -136,9 +137,7 @@ public class FontDrawer {
     public int getStringWidth(String s) {
 
         EventText textEvent = new EventText(s);
-        if (Client.eventManager != null) {
-            Client.eventManager.call(textEvent);
-        }
+        EventManager.call(textEvent);
         if (textEvent.isCancelled()) return 0;
         s  = textEvent.text;
 
@@ -255,9 +254,7 @@ public class FontDrawer {
         if (s == null || s.isEmpty()) return;
 
         EventText textEvent = new EventText(s);
-        if (Client.eventManager != null) {
-            Client.eventManager.call(textEvent);
-        }
+        EventManager.call(textEvent);
         if (textEvent.isCancelled()) return;
         s  = textEvent.text;
 

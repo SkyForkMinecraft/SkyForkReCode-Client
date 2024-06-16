@@ -3,41 +3,53 @@ package net.skyfork.event;
 import net.skyfork.event.impl.Event;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.Type;
 import java.util.*;
 
 /**
- * @author LangYa、verym0re
+ * @author LangYa
  * @since 2024/6/5 下午8:34
  */
 
 public class EventManager {
-    private final Map<Object, Map<Integer, List<EventHandler>>> eventMap;
+    private static final Map<Integer, List<Method>> eventMap = new HashMap<>();
 
-    public EventManager() {
-        this.eventMap = new HashMap<>();
-    }
 
-    public void register(Object target) {
-        Class<?> present = target.getClass();
-        Method[] methods = present.getDeclaredMethods();
+    public static void register(Object target) {
+        Method[] methods = target.getClass().getDeclaredMethods();
         for (Method method : methods) {
-            final boolean accessible = method.isAccessible();
-            method.setAccessible(true);
             if (method.isAnnotationPresent(EventTarget.class)) {
-                final Type event = method.getParameterTypes()[0];
                 EventTarget priority = method.getAnnotation(EventTarget.class);
-                eventMap.computeIfAbsent(event, k -> new TreeMap<>()).computeIfAbsent(priority.value(), k -> new ArrayList<>()).add(new EventHandler(method, target, present, priority));
+                int value = priority.value();
+                eventMap.computeIfAbsent(value, k -> new ArrayList<>()).add(method);
             }
-            method.setAccessible(accessible);
         }
     }
 
-    public void unregister(Object target) {
-        eventMap.values().forEach(eventPriority -> eventPriority.values().forEach(callers -> callers.removeIf(handler -> handler.clazz.equals(target))));
+    public static void unregister(Object target) {
+        eventMap.remove(target);
     }
 
-    public void call(Event event) {
-        eventMap.computeIfAbsent(event.getClass(), k -> new TreeMap<>()).values().forEach(callers -> callers.forEach(handler -> handler.fire(event)));
+    private static int getMethodPriority(Method method) {
+        EventTarget annotation = method.getAnnotation(EventTarget.class);
+        return annotation != null ? annotation.value() : 0;
     }
+
+    public static void call(Event event) {
+        List<Method> methods = new ArrayList<>();
+        for (List<Method> methodList : eventMap.values()) {
+            methods.addAll(methodList);
+        }
+        methods.sort(Comparator.comparingInt(EventManager::getMethodPriority));
+
+        for (Method method : methods) {
+            try {
+                // 设置私有方法可访问
+                method.setAccessible(true);
+                method.invoke(method.getDeclaringClass().getConstructor().newInstance(), event);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 }

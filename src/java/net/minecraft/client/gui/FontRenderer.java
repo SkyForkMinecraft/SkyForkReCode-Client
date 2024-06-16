@@ -27,6 +27,7 @@ import net.optifine.CustomColors;
 import net.optifine.render.GlBlendState;
 import net.optifine.util.FontUtils;
 import net.skyfork.Client;
+import net.skyfork.event.EventManager;
 import net.skyfork.event.impl.misc.EventText;
 import org.apache.commons.io.IOUtils;
 import org.lwjgl.opengl.GL11;
@@ -323,12 +324,11 @@ public class FontRenderer implements IResourceManagerReloadListener
     public int drawString(String text, float x, float y, int color, boolean dropShadow)
     {
 
-        if (Client.eventManager != null) {
-            EventText eventText = new EventText(text);
-            Client.eventManager.call(eventText);
-            if (eventText.isCancelled()) return 0;
-            text = eventText.text;
-        }
+        EventText eventText = new EventText(text);
+        EventManager.call(eventText);
+        if (eventText.isCancelled()) return 0;
+        text = eventText.text;
+
 
         this.enableAlpha();
 
@@ -603,12 +603,10 @@ public class FontRenderer implements IResourceManagerReloadListener
     public int getStringWidth(String text)
     {
 
-        if (Client.eventManager != null) {
-            EventText eventText = new EventText(text);
-            Client.eventManager.call(eventText);
-            if (eventText.isCancelled()) return 0;
-            text = eventText.text;
-        }
+        EventText eventText = new EventText(text);
+        EventManager.call(eventText);
+        if (eventText.isCancelled()) return 0;
+        text = eventText.text;
 
         if (text == null)
         {

@@ -168,6 +168,7 @@ import net.minecraft.world.storage.ISaveFormat;
 import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.WorldInfo;
 import net.skyfork.Client;
+import net.skyfork.event.EventManager;
 import net.skyfork.event.impl.misc.EventKeyInput;
 import net.skyfork.event.impl.misc.EventTick;
 import org.apache.commons.io.IOUtils;
@@ -519,7 +520,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
 
         this.renderGlobal.makeEntityOutlineShader();
 
-        Client.initClient();
+        new Client().initClient();
     }
 
     private void registerMetadataSerializers()
@@ -1598,7 +1599,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
     public void runTick() throws IOException
     {
         EventTick eventTick = new EventTick();
-        Client.eventManager.call(eventTick);
+        EventManager.call(eventTick);
         if (this.rightClickDelayTimer > 0)
         {
             --this.rightClickDelayTimer;
@@ -1764,9 +1765,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
             {
                 int k = Keyboard.getEventKey() == 0 ? Keyboard.getEventCharacter() + 256 : Keyboard.getEventKey();
                 EventKeyInput eventKeyInput = new EventKeyInput(k, Keyboard.getEventKeyState());
-                if (Client.eventManager != null) {
-                    Client.eventManager.call(eventKeyInput);
-                }
+                EventManager.call(eventKeyInput);
                 k = eventKeyInput.getKey();
                 KeyBinding.setKeyBindState(k, eventKeyInput.isKeyState());
 

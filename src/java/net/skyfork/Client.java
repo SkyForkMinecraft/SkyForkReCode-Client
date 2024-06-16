@@ -1,5 +1,7 @@
 package net.skyfork;
 
+import lombok.Getter;
+import net.skyfork.combat.WorldManager;
 import net.skyfork.event.EventManager;
 
 import net.skyfork.event.EventTarget;
@@ -34,36 +36,47 @@ public class Client implements Wrapper {
     // logger
     public static Logger logManager;
 
+    @Getter
+    public static Client instance;
+
     // managers
-    public static I18nManager i18nManager;
-    public static EventManager eventManager;
-    public static ModeManager modeManager;
-    public static ModuleManager moduleManager;
-    public static CommandManager commandManager;
-    public static DragManager dragManager;
-    public static RankManager rankManager;
+    @Getter
+    private I18nManager i18nManager;
+    @Getter
+    private ModeManager modeManager;
+    @Getter
+    private ModuleManager moduleManager;
+    @Getter
+    private CommandManager commandManager;
+    @Getter
+    private DragManager dragManager;
+    @Getter
+    private WorldManager worldManager;
+    @Getter
+    private RankManager rankManager;
 
     public static ResourceLocation getLocation(String location) {
         return new ResourceLocation(name.toLowerCase() + "/" + location);
     }
 
-    public static void initClient() {
+    public void initClient() {
+        instance = this;
         i18nManager = new I18nManager();
-        eventManager = new EventManager();
-        eventManager.register(new Client());
+        EventManager.register(new Client());
         logManager = LogManager.getLogger(Client.class);
         Display.setTitle(String.format("%s - %s | 1.8.9", I18n.format("client.name"), version));
         modeManager = new ModeManager();
         commandManager = new CommandManager();
         moduleManager = new ModuleManager();
         dragManager = new DragManager();
+        worldManager = new WorldManager();
         rankManager = new RankManager();
     }
 
     public static void stopClient() {}
 
     @EventTarget
-    private void onRender2D(EventRender2D event) {
+    public void onRender2D(EventRender2D event) {
         if (modeManager.isDark()) {
             FontManager.S30.drawStringWithOutline(I18n.format("client.name"), 10, 10, -1,0);
         } else {
@@ -74,7 +87,7 @@ public class Client implements Wrapper {
 
         if (moduleManager != null) {
             int y = 0;
-            for (Module module : moduleManager.getModules()) {
+            for (Module module : moduleManager.getModules().values()) {
                 FontManager.S16.drawRightAlignedStringWithShadow(module.getName(), event.getScaledResolution().getScaledWidth() - 10, y, -1);
                 y += 16;
             }

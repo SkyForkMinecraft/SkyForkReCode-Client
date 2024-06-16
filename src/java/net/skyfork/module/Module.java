@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.skyfork.Client;
 import net.skyfork.Wrapper;
+import net.skyfork.event.EventManager;
 import net.skyfork.value.AbstractValue;
 
 import java.util.ArrayList;
@@ -29,9 +30,9 @@ public class Module implements Wrapper {
         this.state = state;
         if (state) {
             onEnable();
-            Client.eventManager.register(this);
+            EventManager.register(this);
         } else {
-            Client.eventManager.unregister(this);
+            EventManager.unregister(this);
             onDisable();
         }
     }
