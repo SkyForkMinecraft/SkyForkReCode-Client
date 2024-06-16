@@ -320,10 +320,25 @@ public class GuiChat extends GuiScreen
                 final boolean skipped = inputField.getText().endsWith(" ");
                 final String[] args = inputField.getText().split(" ");
                 String drawingText;
+                int lastText;
                 if (skipped) {
                     drawingText = CommandHandler.tabComplete.get(0);
+                    lastText = fontRendererObj.getStringWidth(inputField.getText());
                 } else {
                     drawingText = CommandHandler.tabComplete.get(0).replaceFirst("(?i)" + args[args.length - 1], "");
+                    lastText = fontRendererObj.getStringWidth(inputField.getText()) - fontRendererObj.getStringWidth(args[args.length - 1]);
+                }
+
+                if (CommandHandler.tabComplete.size() > 1) {
+                    int longest = 0;
+                    int size = Math.min(CommandHandler.tabComplete.size(), 4);
+                    for (int i = 1;i < size;i++) {
+                        final String completed = CommandHandler.tabComplete.get(i);
+                        int fontLength = fontRendererObj.getStringWidth(completed);
+                        if (fontLength > longest) longest = fontLength;
+                        fontRendererObj.drawStringWithShadow(completed, inputField.xPosition + lastText, inputField.yPosition, new Color(255, 255, 255, 200).getRGB());
+                    }
+                    drawRect(inputField.xPosition + lastText, inputField.yPosition, inputField.xPosition + lastText + longest, inputField.yPosition - fontRendererObj.FONT_HEIGHT * size, Integer.MIN_VALUE);
                 }
 
                 fontRendererObj.drawStringWithShadow(drawingText, fontRendererObj.getStringWidth(text) + inputField.xPosition + 0.5f, inputField.yPosition, new Color(165, 165, 165, 128).getRGB());

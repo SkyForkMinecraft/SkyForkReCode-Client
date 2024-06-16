@@ -18,11 +18,21 @@ import java.util.List;
 @Getter
 @Setter
 public class Module implements Wrapper {
-    private String name;
-    private Category category;
+    private final String name;
+    private final String spacedName;
+    private final String describe;
+    private final Category category;
     private boolean state;
     private int key;
     private final List<AbstractValue<?>> values = new ArrayList<>();
+
+    public Module(String spacedName, String describe, Category category) {
+        this.name = spacedName.replaceAll(" ", "");
+        this.spacedName = spacedName;
+        this.describe = describe;
+        this.category = category;
+    }
+
     public void onEnable() {}
     public void onDisable() {}
 

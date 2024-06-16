@@ -68,6 +68,7 @@ public class Client implements Wrapper {
         modeManager = new ModeManager();
         commandManager = new CommandManager();
         moduleManager = new ModuleManager();
+        moduleManager.register();
         dragManager = new DragManager();
         worldManager = new WorldManager();
         rankManager = new RankManager();
