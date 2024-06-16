@@ -31,37 +31,6 @@ public class CommandManager {
         Client.eventManager.register(new CommandHandler());
     }
 
-    @EventTarget
-    private void onChat(EventChat event) {
-        String command = event.getMessage();
-        if (!command.startsWith(".")) return;
-
-        final boolean skipped = command.endsWith(" "); // 末尾是空格的需要特判(当最后一项为全的时候判断返回下一项的所有预设值，反之不返回任何值)
-        final String[] args = command.toLowerCase().replaceFirst(".", "").split(" ");
-
-        final Command tryCommand = getCommand(args[0]);
-
-        if (args.length == 1) {
-            if (tryCommand == null) {
-                if (!skipped) {
-                    tabComplete = commandMap.keySet().stream().filter(name -> name.startsWith(args[0])).map(name -> "." + name).collect(Collectors.toList());
-                } else {
-                    tabComplete = new ArrayList<>();
-                }
-            } else if (skipped) {
-                tabComplete = tryCommand.tabComplete(args, true);
-            } else {
-                tabComplete = new ArrayList<>();
-            }
-        } else {
-            if (tryCommand != null) {
-                tabComplete = tryCommand.tabComplete(args, skipped);
-            } else {
-                tabComplete = new ArrayList<>();
-            }
-        }
-    }
-
     private void registerCommands(Command ... commands) {
         for (Command command : commands) {
             registerCommand(command);
