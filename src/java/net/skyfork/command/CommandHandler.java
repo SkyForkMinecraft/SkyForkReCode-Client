@@ -1,10 +1,7 @@
 package net.skyfork.command;
 
-import net.skyfork.event.EventTarget;
-import net.skyfork.Client;
-import net.skyfork.event.impl.misc.EventChat;
-
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -13,38 +10,41 @@ import java.util.stream.Collectors;
  */
 
 public class CommandHandler {
+    public static List<String> tabComplete;
+    public static CommandManager commandManager;
 
-    @EventTarget
-    private void onChat(EventChat event) {
-        String command = event.getMessage();
+    public static void runComplete(String command) {
         if (!command.startsWith(".")) return;
 
         // 末尾是空格的需要特判(当最后一项为全的时候判断返回下一项的所有预设值，反之不返回任何值)
         boolean skipped = command.endsWith(" ");
         String[] args = command.toLowerCase().replaceFirst(".", "").split(" ");
 
-        CommandManager commandManager =Client.commandManager;
         Command tryCommand = commandManager.getCommand(args[0]);
 
         if (args.length == 1) {
             if (tryCommand == null) {
                 if (!skipped) {
-                    commandManager.tabComplete = commandManager.getCommandMap().keySet().stream().filter(name -> name.startsWith(args[0])).map(name -> "." + name).collect(Collectors.toList());
+                    tabComplete = commandManager.getCommandMap().keySet().stream().filter(name -> name.startsWith(args[0])).map(name -> "." + name).collect(Collectors.toList());
                 } else {
-                    commandManager.tabComplete = new ArrayList<>();
+                    tabComplete = new ArrayList<>();
                 }
             } else if (skipped) {
-                commandManager.tabComplete = tryCommand.tabComplete(args, true);
+                tabComplete = tryCommand.tabComplete(args, true);
             } else {
-                commandManager.tabComplete = new ArrayList<>();
+                tabComplete = new ArrayList<>();
             }
         } else {
             if (tryCommand != null) {
-                commandManager.tabComplete = tryCommand.tabComplete(args, skipped);
+                tabComplete = tryCommand.tabComplete(args, skipped);
             } else {
-                commandManager.tabComplete = new ArrayList<>();
+                tabComplete = new ArrayList<>();
             }
         }
     }
 
+    public static boolean canAutoComplete(String command) {
+        runComplete(command);
+        return command.startsWith(".") && tabComplete.size() != 0;
+    }
 }

@@ -1,6 +1,7 @@
 package net.skyfork.util.misc;
 
 import net.minecraft.util.ChatComponentText;
+import net.skyfork.Client;
 import net.skyfork.Wrapper;
 
 /**
@@ -14,4 +15,7 @@ public class ClientUtil implements Wrapper {
         mc.thePlayer.addChatMessage(new ChatComponentText(text));
     }
 
+    public static void chatPrefix(String text) {
+        chat(Client.color_name + " " + text);
+    }
 }

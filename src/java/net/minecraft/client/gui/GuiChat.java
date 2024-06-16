@@ -1,6 +1,8 @@
 package net.minecraft.client.gui;
 
 import com.google.common.collect.Lists;
+
+import java.awt.*;
 import java.io.IOException;
 import java.util.List;
 import net.minecraft.network.play.client.C14PacketTabComplete;
@@ -10,8 +12,12 @@ import net.minecraft.util.IChatComponent;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.skyfork.Client;
+import net.skyfork.command.Command;
+import net.skyfork.command.CommandHandler;
 import net.skyfork.drag.Drag;
 import net.skyfork.font.FontManager;
+import net.skyfork.i18n.I18n;
+import net.skyfork.util.misc.ClientUtil;
 import net.skyfork.util.misc.MouseUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -110,11 +116,26 @@ public class GuiChat extends GuiScreen
 
             if (s.length() > 0)
             {
-                this.sendChatMessage(s);
+                if (s.startsWith(".")) {
+                    final String[] arr = s.split(" ");
+
+                    final Command command = Client.commandManager.getCommand(arr[0].replaceFirst(".", ""));
+
+                    if (command == null) {
+                        ClientUtil.chatPrefix(I18n.format("command.toggle.notfound"));
+                    } else {
+                        this.mc.ingameGUI.getChatGUI().addToSentMessages(s);
+                        command.execute(arr);
+                    }
+                } else {
+                    this.sendChatMessage(s);
+                }
             }
 
             this.mc.displayGuiScreen((GuiScreen)null);
         }
+
+        CommandHandler.runComplete(inputField.getText());
     }
 
     public void handleMouseInput() throws IOException
@@ -241,7 +262,15 @@ public class GuiChat extends GuiScreen
 
     private void sendAutocompleteRequest(String p_146405_1_, String p_146405_2_)
     {
-        if (p_146405_1_.length() >= 1)
+        if (CommandHandler.canAutoComplete(p_146405_1_)) {
+            this.waitingOnAutocomplete = true;
+
+            List<String> autoCompleteList = CommandHandler.tabComplete;
+
+            if (p_146405_1_.equalsIgnoreCase(autoCompleteList.get(autoCompleteList.size() - 1)) && !p_146405_1_.endsWith(" ")) return;
+
+            this.onAutocompleteResponse(autoCompleteList.toArray(new String[0]));
+        } else if (p_146405_1_.length() >= 1)
         {
             BlockPos blockpos = null;
 
@@ -285,6 +314,23 @@ public class GuiChat extends GuiScreen
     {
         drawRect(2, this.height - 14, this.width - 2, this.height - 2, Integer.MIN_VALUE);
         this.inputField.drawTextBox();
+        if (inputField.getText().length() > 0 && inputField.getText().startsWith(".")) {
+            if (!CommandHandler.tabComplete.isEmpty()) {
+                final String text = inputField.getText();
+                final boolean skipped = inputField.getText().endsWith(" ");
+                final String[] args = inputField.getText().split(" ");
+                String drawingText;
+                if (skipped) {
+                    drawingText = CommandHandler.tabComplete.get(0);
+                } else {
+                    drawingText = CommandHandler.tabComplete.get(0).replaceFirst("(?i)" + args[args.length - 1], "");
+                }
+
+                fontRendererObj.drawStringWithShadow(drawingText, fontRendererObj.getStringWidth(text) + inputField.xPosition + 0.5f, inputField.yPosition, new Color(165, 165, 165, 128).getRGB());
+            }
+
+            drawRect(2, this.height - 15, this.width - 2, this.height - 14, new Color(0, 247, 255, 178).getRGB());
+        }
         IChatComponent ichatcomponent = this.mc.ingameGUI.getChatGUI().getChatComponent(Mouse.getX(), Mouse.getY());
 
         if (ichatcomponent != null && ichatcomponent.getChatStyle().getChatHoverEvent() != null)

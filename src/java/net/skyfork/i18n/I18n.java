@@ -11,7 +11,7 @@ public class I18n {
     public static HashMap<String, String> properties;
 
     public static String format(String key) {
-        return properties.get(key);
+        final String result = properties.get(key);
+        return result == null ? key : result;
     }
-
 }

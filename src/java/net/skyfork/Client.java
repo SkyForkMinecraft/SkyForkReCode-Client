@@ -27,6 +27,7 @@ import org.lwjgl.opengl.Display;
 public class Client implements Wrapper {
     // info
     public static final String name = "SkyFork";
+    public final static String color_name = "§r[§b" + name + "§r]";
     public static final String version = "1.0";
     public static final String web = "https://github.com/SkyForkMinecraft";
 
