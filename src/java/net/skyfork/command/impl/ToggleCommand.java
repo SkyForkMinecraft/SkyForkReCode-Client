@@ -26,7 +26,7 @@ public class ToggleCommand extends Command {
             Module module = Client.moduleManager.getModule(parma[1]);
 
             if (module == null) {
-                ClientUtil.chat(I18n.format("command.toggle.error1"));
+                ClientUtil.chatPrefix(I18n.format("command.toggle.error1"));
             } else {
                 if (parma.length > 2) {
                     if (parma[2].equalsIgnoreCase("on") || parma[2].equalsIgnoreCase("off")) {
@@ -35,14 +35,14 @@ public class ToggleCommand extends Command {
                         if (module.isState() != targetState)
                             module.toggle();
                     } else {
-                        ClientUtil.chat(I18n.format("command.toggle.error2"));
+                        ClientUtil.chatPrefix(I18n.format("command.toggle.error2"));
                     }
                 } else {
                     module.toggle();
                 }
             }
         } else {
-            ClientUtil.chat(I18n.format("command.toggle.error2"));
+            ClientUtil.chatPrefix(I18n.format("command.toggle.error2"));
         }
     }
 

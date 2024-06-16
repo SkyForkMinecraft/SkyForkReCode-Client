@@ -20,11 +20,11 @@ import java.util.stream.Collectors;
 @Setter
 public class CommandManager {
     private final HashMap<String, Command> commandMap;
-    public List<String> tabComplete;
 
     public CommandManager() {
         commandMap = new HashMap<>();
-        tabComplete = new ArrayList<>();
+        CommandHandler.commandManager = this;
+        CommandHandler.tabComplete = new ArrayList<>();
         registerCommands(
                 new ToggleCommand("toggle")
         );
