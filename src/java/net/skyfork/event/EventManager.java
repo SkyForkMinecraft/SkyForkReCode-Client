@@ -32,7 +32,7 @@ public final class EventManager {
      * @param object
      *         Object that you want to register.
      */
-    public static void register(Object object) {
+    public void register(Object object) {
         for (final Method method : object.getClass().getDeclaredMethods()) {
             if (isMethodBad(method)) {
                 continue;
@@ -51,7 +51,7 @@ public final class EventManager {
      * @param eventClass
      *         class for the marked method we are looking for.
      */
-    public static void register(Object object, Class<? extends Event> eventClass) {
+    public void register(Object object, Class<? extends Event> eventClass) {
         for (final Method method : object.getClass().getDeclaredMethods()) {
             if (isMethodBad(method, eventClass)) {
                 continue;
@@ -67,7 +67,7 @@ public final class EventManager {
      * @param object
      *         Object of which you want to unregister all Methods.
      */
-    public static void unregister(Object object) {
+    public void unregister(Object object) {
         for (final List<MethodData> dataList : REGISTRY_MAP.values()) {
             dataList.removeIf(data -> data.getSource().equals(object));
         }
@@ -83,7 +83,7 @@ public final class EventManager {
      * @param eventClass
      *         class for the method to remove.
      */
-    public static void unregister(Object object, Class<? extends Event> eventClass) {
+    public void unregister(Object object, Class<? extends Event> eventClass) {
         if (REGISTRY_MAP.containsKey(eventClass)) {
             REGISTRY_MAP.get(eventClass).removeIf(data -> data.getSource().equals(object));
 
@@ -134,7 +134,7 @@ public final class EventManager {
      * @param indexClass
      *         They index key in the map of which the entry should be removed.
      */
-    public static void removeEntry(Class<? extends Event> indexClass) {
+    public void removeEntry(Class<? extends Event> indexClass) {
         Iterator<Map.Entry<Class<? extends Event>, List<MethodData>>> mapIterator = REGISTRY_MAP.entrySet().iterator();
 
         while (mapIterator.hasNext()) {
@@ -152,7 +152,7 @@ public final class EventManager {
      * @param onlyEmptyEntries
      *         If true only remove the entries with an empty list, otherwise remove all the entries.
      */
-    public static void cleanMap(boolean onlyEmptyEntries) {
+    public void cleanMap(boolean onlyEmptyEntries) {
         Iterator<Map.Entry<Class<? extends Event>, List<MethodData>>> mapIterator = REGISTRY_MAP.entrySet().iterator();
 
         while (mapIterator.hasNext()) {
@@ -230,7 +230,7 @@ public final class EventManager {
      *
      * @return Event in the state after dispatching it.
      */
-    public static Event call(final Event event) {
+    public Event call(final Event event) {
         List<MethodData> dataList = REGISTRY_MAP.get(event.getClass());
 
         if (dataList != null) {
