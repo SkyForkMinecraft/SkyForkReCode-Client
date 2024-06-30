@@ -2,7 +2,6 @@ package net.skyfork.combat;
 
 import net.skyfork.Client;
 import net.skyfork.combat.impl.combat.WorldTargetCheck;
-import net.skyfork.event.EventManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +22,7 @@ public class WorldManager {
     private void init() {
         worldChecks.add(new WorldTargetCheck());
 
-        worldChecks.forEach(EventManager::register);
+        worldChecks.forEach(Client.getInstance().getEventManager()::register);
     }
 
 }

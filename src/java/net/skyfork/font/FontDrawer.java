@@ -7,7 +7,6 @@ import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.skyfork.Client;
-import net.skyfork.event.EventManager;
 import net.skyfork.event.impl.misc.EventText;
 import net.skyfork.util.misc.ColorUtil;
 import net.skyfork.util.render.GLUtils;
@@ -136,10 +135,12 @@ public class FontDrawer {
 
     public int getStringWidth(String s) {
 
-        EventText textEvent = new EventText(s);
-        EventManager.call(textEvent);
-        if (textEvent.isCancelled()) return 0;
-        s  = textEvent.text;
+        if (Client.getInstance().loaded) {
+            EventText textEvent = new EventText(s);
+            Client.getInstance().getEventManager().call(textEvent);
+            if (textEvent.isCancelled()) return 0;
+            s = textEvent.text;
+        }
 
         if (s != null && !s.isEmpty()) {
 //            s = EnumChatFormatting.getTextWithoutFormattingCodes(s);
@@ -253,10 +254,12 @@ public class FontDrawer {
     public void drawString(String s, double x, double y, int color, boolean shadow) {
         if (s == null || s.isEmpty()) return;
 
-        EventText textEvent = new EventText(s);
-        EventManager.call(textEvent);
-        if (textEvent.isCancelled()) return;
-        s  = textEvent.text;
+        if (Client.getInstance().loaded) {
+            EventText textEvent = new EventText(s);
+            Client.getInstance().getEventManager().call(textEvent);
+            if (textEvent.isCancelled()) return;
+            s = textEvent.text;
+        }
 
         if ((color & -67108864) == 0) {
             color |= -16777216;

@@ -168,7 +168,6 @@ import net.minecraft.world.storage.ISaveFormat;
 import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.WorldInfo;
 import net.skyfork.Client;
-import net.skyfork.event.EventManager;
 import net.skyfork.event.impl.misc.EventKeyInput;
 import net.skyfork.event.impl.misc.EventTick;
 import org.apache.commons.io.IOUtils;
@@ -1599,7 +1598,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
     public void runTick() throws IOException
     {
         EventTick eventTick = new EventTick();
-        EventManager.call(eventTick);
+        Client.getInstance().getEventManager().call(eventTick);
         if (this.rightClickDelayTimer > 0)
         {
             --this.rightClickDelayTimer;
@@ -1765,7 +1764,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
             {
                 int k = Keyboard.getEventKey() == 0 ? Keyboard.getEventCharacter() + 256 : Keyboard.getEventKey();
                 EventKeyInput eventKeyInput = new EventKeyInput(k, Keyboard.getEventKeyState());
-                EventManager.call(eventKeyInput);
+                Client.getInstance().getEventManager().call(eventKeyInput);
                 k = eventKeyInput.getKey();
                 KeyBinding.setKeyBindState(k, eventKeyInput.isKeyState());
 

@@ -1,6 +1,5 @@
 package net.skyfork.user;
 
-import net.skyfork.event.EventManager;
 import net.skyfork.event.EventTarget;
 import net.skyfork.Client;
 import net.skyfork.event.impl.misc.EventText;
@@ -13,7 +12,7 @@ import net.skyfork.event.impl.misc.EventText;
 public class RankManager {
 
     public RankManager() {
-        EventManager.register(this);
+        Client.getInstance().getEventManager().register(this);
     }
 
     @EventTarget

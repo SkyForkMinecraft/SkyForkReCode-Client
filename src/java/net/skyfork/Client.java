@@ -36,14 +36,13 @@ public class Client implements Wrapper {
     // logger
     public static Logger logManager;
 
-    @Getter
-    public static Client instance;
-
     // managers
     @Getter
     private I18nManager i18nManager;
     @Getter
     private ModeManager modeManager;
+    @Getter
+    private EventManager eventManager;
     @Getter
     private ModuleManager moduleManager;
     @Getter
@@ -55,23 +54,29 @@ public class Client implements Wrapper {
     @Getter
     private RankManager rankManager;
 
+    @Getter
+    private static Client instance = new Client();
+    public boolean loaded;
+
     public static ResourceLocation getLocation(String location) {
         return new ResourceLocation(name.toLowerCase() + "/" + location);
     }
 
     public void initClient() {
         instance = this;
+        eventManager = new EventManager();
         i18nManager = new I18nManager();
-        EventManager.register(new Client());
+        eventManager.register(this);
         logManager = LogManager.getLogger(Client.class);
         Display.setTitle(String.format("%s - %s | 1.8.9", I18n.format("client.name"), version));
         modeManager = new ModeManager();
         commandManager = new CommandManager();
         moduleManager = new ModuleManager();
-        moduleManager.register();
+        moduleManager.init();
         dragManager = new DragManager();
         worldManager = new WorldManager();
         rankManager = new RankManager();
+        loaded = true;
     }
 
     public static void stopClient() {}
@@ -79,12 +84,10 @@ public class Client implements Wrapper {
     @EventTarget
     public void onRender2D(EventRender2D event) {
         if (modeManager.isDark()) {
-            FontManager.S30.drawStringWithOutline(I18n.format("client.name"), 10, 10, -1,0);
+            FontManager.S30.drawString(I18n.format("client.name"), 10, 10,0);
         } else {
-            FontManager.S30.drawStringWithOutline(I18n.format("client.name"), 10, 10, 0,-1);
+            FontManager.S30.drawString(I18n.format("client.name"), 10, 10,-1);
         }
-
-        FontManager.S30.drawStringWithShadow(I18n.format("client.name"), 10, 10, -1);
 
         if (moduleManager != null) {
             int y = 0;

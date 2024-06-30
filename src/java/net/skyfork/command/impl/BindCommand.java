@@ -19,7 +19,7 @@ public class BindCommand extends Command {
     @Override
     public void execute(String[] parma) {
         if (parma.length > 1) {
-            Module module = Client.moduleManager.getModule(parma[1]);
+            Module module = Client.getInstance().getModuleManager().getModule(parma[1]);
 
             if (module == null) {
                 ClientUtil.chatPrefix(I18n.format("command.bind.error1"));
@@ -46,7 +46,7 @@ public class BindCommand extends Command {
     @Override
     protected List<String> getComplete(int length) {
         if (length == 1) {
-            return Client.moduleManager.getModules().stream().map(Module::getName).collect(Collectors.toList());
+            return Client.getInstance().getModuleManager().getModules().values().stream().map(Module::getName).collect(Collectors.toList());
         }
 
         return new ArrayList<>();

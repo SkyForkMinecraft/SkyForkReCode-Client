@@ -1,12 +1,9 @@
 package net.skyfork.event.impl;
 
 /**
- * The most basic form of an event. You have to implement this interface in
- * order for the EventAPI to recognize the event.
- *
- * @author DarkMagician6
- * @since July 30, 2013
+ * Marker interface for events.
  */
 public interface Event {
-
+    // This interface doesn't contain any methods or fields.
+    // It's used to mark classes as events.
 }

@@ -1,8 +1,8 @@
 package net.skyfork.drag;
 
 import lombok.Getter;
+import net.skyfork.Client;
 import net.skyfork.drag.impl.Rect;
-import net.skyfork.event.EventManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ public class DragManager {
     public DragManager() {
         dragList = new ArrayList<>();
         dragList.add(new Rect());
-        EventManager.register(new DragHandler());
+        Client.getInstance().getEventManager().register(new DragHandler());
     }
 
 }

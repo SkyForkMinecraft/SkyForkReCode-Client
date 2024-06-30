@@ -1,8 +1,9 @@
 package net.skyfork.command;
 
-import net.skyfork.event.EventManager;
+import net.skyfork.Client;
 import lombok.Getter;
 import lombok.Setter;
+import net.skyfork.command.impl.BindCommand;
 import net.skyfork.command.impl.ToggleCommand;
 
 import java.util.ArrayList;
@@ -22,9 +23,10 @@ public class CommandManager {
         CommandHandler.commandManager = this;
         CommandHandler.tabComplete = new ArrayList<>();
         registerCommands(
-                new ToggleCommand("toggle")
+                new ToggleCommand("toggle"),
+                new BindCommand("bind")
         );
-        EventManager.register(new CommandHandler());
+        Client.getInstance().getEventManager().register(new CommandHandler());
     }
 
     private void registerCommands(Command ... commands) {

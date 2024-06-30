@@ -1,9 +1,8 @@
 package net.skyfork.module;
 
 import lombok.Getter;
-import net.skyfork.event.EventManager;
+import net.skyfork.Client;
 import net.skyfork.i18n.I18n;
-import net.skyfork.module.hack.combat.KillAura;
 
 import java.util.HashMap;
 
@@ -17,12 +16,11 @@ public class ModuleManager {
 
     public ModuleManager() {
         modules = new HashMap<>();
-        EventManager.register(new ModuleHandler());
+        Client.getInstance().getEventManager().register(new ModuleHandler());
         init();
     }
 
-    private void init() {
-        register(new KillAura(), I18n.format(""));
+    public void init() {
     }
 
     public Module getModule(Module module) {

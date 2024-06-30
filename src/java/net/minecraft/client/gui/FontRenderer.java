@@ -27,7 +27,6 @@ import net.optifine.CustomColors;
 import net.optifine.render.GlBlendState;
 import net.optifine.util.FontUtils;
 import net.skyfork.Client;
-import net.skyfork.event.EventManager;
 import net.skyfork.event.impl.misc.EventText;
 import org.apache.commons.io.IOUtils;
 import org.lwjgl.opengl.GL11;
@@ -325,7 +324,7 @@ public class FontRenderer implements IResourceManagerReloadListener
     {
 
         EventText eventText = new EventText(text);
-        EventManager.call(eventText);
+        Client.getInstance().getEventManager().call(eventText);
         if (eventText.isCancelled()) return 0;
         text = eventText.text;
 
@@ -604,7 +603,7 @@ public class FontRenderer implements IResourceManagerReloadListener
     {
 
         EventText eventText = new EventText(text);
-        EventManager.call(eventText);
+        Client.getInstance().getEventManager().call(eventText);
         if (eventText.isCancelled()) return 0;
         text = eventText.text;
 
