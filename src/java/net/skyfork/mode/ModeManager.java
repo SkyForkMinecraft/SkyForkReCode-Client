@@ -10,13 +10,14 @@ public class ModeManager {
     private final ThemeMode themeMode;
 
     public ModeManager() {
-        clientMode = ClientMode.Hack;
+        clientMode = ClientMode.Dev;
         themeMode = ThemeMode.Dark;
     }
 
-    public boolean isHack() {
-        return clientMode == ClientMode.Hack;
+    public boolean isDev() {
+        return clientMode == ClientMode.Dev;
     }
+
     public boolean isDark() {
         return themeMode == ThemeMode.Dark;
     }

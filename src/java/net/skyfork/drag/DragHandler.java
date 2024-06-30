@@ -16,7 +16,7 @@ public class DragHandler {
     private void onRender2D(EventRender2D event) {
         GLUtils.pushMatrix();
         Client.getInstance().getDragManager().getDragList().forEach(drag -> {
-            // GLUtils.translated(drag.getX(),drag.getY(),0);
+            GLUtils.translated(drag.getX(),drag.getY(),0);
             drag.render(event);
         });
         GLUtils.popMatrix();

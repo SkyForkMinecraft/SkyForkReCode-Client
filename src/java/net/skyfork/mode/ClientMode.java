@@ -6,5 +6,5 @@ package net.skyfork.mode;
  */
 
 public enum ClientMode {
-    Legit,Hack
+    Dev,User
 }

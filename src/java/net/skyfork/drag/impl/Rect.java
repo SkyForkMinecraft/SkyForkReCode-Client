@@ -11,9 +11,16 @@ import net.skyfork.util.render.RenderUtil;
 
 public class Rect extends Drag {
 
+    public Rect() {
+        setX(50);
+        setY(50);
+        setWidth(50);
+        setHeight(50);
+    }
+
     @Override
     public void render(EventRender2D event) {
-        RenderUtil.drawRect(50,50,50,50,-1);
+        RenderUtil.drawRect(0,0,50,50,-1);
     }
 
 }

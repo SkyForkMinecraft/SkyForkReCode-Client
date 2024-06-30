@@ -32,6 +32,13 @@ public class Module implements Wrapper {
         this.category = category;
     }
 
+    public Module(String spacedName, Category category) {
+        this.name = spacedName.replaceAll(" ", "");
+        this.spacedName = spacedName;
+        this.describe = null;
+        this.category = category;
+    }
+
     public void onEnable() {}
     public void onDisable() {}
 
