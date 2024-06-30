@@ -1,8 +1,6 @@
 package net.minecraft.client.gui;
 
 import com.google.common.collect.Lists;
-
-import java.awt.*;
 import java.io.IOException;
 import java.util.List;
 import net.minecraft.network.play.client.C14PacketTabComplete;
@@ -12,22 +10,13 @@ import net.minecraft.util.IChatComponent;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.skyfork.Client;
-import net.skyfork.command.Command;
-import net.skyfork.command.CommandHandler;
 import net.skyfork.drag.Drag;
-import net.skyfork.font.FontManager;
-import net.skyfork.i18n.I18n;
-import net.skyfork.util.misc.ClientUtil;
-import net.skyfork.util.misc.MouseUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 public class GuiChat extends GuiScreen
 {
-    private static final Logger logger = LogManager.getLogger();
     private String historyBuffer = "";
     private int sentHistoryCursor = -1;
     private boolean playerNamesFound;
@@ -116,26 +105,11 @@ public class GuiChat extends GuiScreen
 
             if (s.length() > 0)
             {
-                if (s.startsWith(".")) {
-                    final String[] arr = s.split(" ");
-
-                    final Command command = Client.getInstance().getCommandManager().getCommand(arr[0].replaceFirst(".", ""));
-
-                    if (command == null) {
-                        ClientUtil.chatPrefix(I18n.format("command.toggle.notfound"));
-                    } else {
-                        this.mc.ingameGUI.getChatGUI().addToSentMessages(s);
-                        command.execute(arr);
-                    }
-                } else {
-                    this.sendChatMessage(s);
-                }
+                this.sendChatMessage(s);
             }
 
             this.mc.displayGuiScreen((GuiScreen)null);
         }
-
-        CommandHandler.runComplete(inputField.getText());
     }
 
     public void handleMouseInput() throws IOException
@@ -166,25 +140,6 @@ public class GuiChat extends GuiScreen
 
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException
     {
-
-        Client.getInstance().getDragManager().getDragList().forEach(drag ->  {
-            if (MouseUtil.isHovering(drag.getX(), drag.getY(), drag.getWidth(), drag.getHeight(), mouseX, mouseY)) {
-
-                drag.setDragging(true);
-                this.drag = drag;
-
-                if (mouseButton == 0) {
-                    float tempX = drag.getX();
-                    float tempY = drag.getY();
-                    drag.setX(mouseX - tempX);
-                    drag.setY(mouseY - tempY);
-                } else {
-                    drag.setDragging(false);
-                    this.drag = null;
-                }
-            }
-        });
-
         if (mouseButton == 0)
         {
             IChatComponent ichatcomponent = this.mc.ingameGUI.getChatGUI().getChatComponent(Mouse.getX(), Mouse.getY());
@@ -262,15 +217,7 @@ public class GuiChat extends GuiScreen
 
     private void sendAutocompleteRequest(String p_146405_1_, String p_146405_2_)
     {
-        if (CommandHandler.canAutoComplete(p_146405_1_)) {
-            this.waitingOnAutocomplete = true;
-
-            List<String> autoCompleteList = CommandHandler.tabComplete;
-
-            if (p_146405_1_.equalsIgnoreCase(autoCompleteList.get(autoCompleteList.size() - 1)) && !p_146405_1_.endsWith(" ")) return;
-
-            this.onAutocompleteResponse(autoCompleteList.toArray(new String[0]));
-        } else if (p_146405_1_.length() >= 1)
+        if (p_146405_1_.length() >= 1)
         {
             BlockPos blockpos = null;
 
@@ -312,69 +259,18 @@ public class GuiChat extends GuiScreen
 
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
+        Client.getInstance().getDragManager().getDragList().forEach(drag -> {
+            drag.updateMousePos(mouseX,mouseY);
+        });
+
         drawRect(2, this.height - 14, this.width - 2, this.height - 2, Integer.MIN_VALUE);
         this.inputField.drawTextBox();
-        if (inputField.getText().length() > 0 && inputField.getText().startsWith(".")) {
-            if (!CommandHandler.tabComplete.isEmpty()) {
-                final String text = inputField.getText();
-                final boolean skipped = inputField.getText().endsWith(" ");
-                final String[] args = inputField.getText().split(" ");
-                String drawingText;
-                int lastText;
-                if (skipped) {
-                    drawingText = CommandHandler.tabComplete.get(0);
-                    lastText = fontRendererObj.getStringWidth(inputField.getText());
-                } else {
-                    drawingText = CommandHandler.tabComplete.get(0).replaceFirst("(?i)" + args[args.length - 1], "");
-                    lastText = fontRendererObj.getStringWidth(inputField.getText()) - fontRendererObj.getStringWidth(args[args.length - 1]);
-                }
-
-                if (CommandHandler.tabComplete.size() > 1) {
-                    int longest = 0;
-                    int size = Math.min(CommandHandler.tabComplete.size(), 4);
-                    for (int i = 1;i < size;i++) {
-                        final String completed = CommandHandler.tabComplete.get(i);
-                        int fontLength = fontRendererObj.getStringWidth(completed);
-                        if (fontLength > longest) longest = fontLength;
-                        fontRendererObj.drawStringWithShadow(completed, inputField.xPosition + lastText, inputField.yPosition, new Color(255, 255, 255, 200).getRGB());
-                    }
-                    drawRect(inputField.xPosition + lastText, inputField.yPosition, inputField.xPosition + lastText + longest, inputField.yPosition - fontRendererObj.FONT_HEIGHT * size, Integer.MIN_VALUE);
-                }
-
-                fontRendererObj.drawStringWithShadow(drawingText, fontRendererObj.getStringWidth(text) + inputField.xPosition + 0.5f, inputField.yPosition, new Color(165, 165, 165, 128).getRGB());
-            }
-
-            drawRect(2, this.height - 15, this.width - 2, this.height - 14, new Color(0, 247, 255, 178).getRGB());
-        }
         IChatComponent ichatcomponent = this.mc.ingameGUI.getChatGUI().getChatComponent(Mouse.getX(), Mouse.getY());
 
         if (ichatcomponent != null && ichatcomponent.getChatStyle().getChatHoverEvent() != null)
         {
             this.handleComponentHover(ichatcomponent, mouseX, mouseY);
         }
-
-        Client.getInstance().getDragManager().getDragList().forEach(drag1 -> {
-            if (MouseUtil.isHovering(drag1.getX(), drag1.getY(), drag1.getWidth(), drag1.getHeight(), mouseX, mouseY)) {
-
-                // RenderUtil.drawBorder(drag1.getX() - 4, drag1.getY() - 4,  drag1.getWidth() + 8, drag1.getHeight() + 8, 1, -1);
-                if (Client.getInstance().getI18nManager() != null) {
-                    String text = null;
-                    switch (Client.getInstance().getI18nManager().languageType) {
-                        case English: {
-                            text = String.format("PosX: %s PosY: %s", drag1.getX(), drag1.getY());
-                            break;
-                        }
-                        case Chinese: {
-                            text = String.format("X轴: %s Y轴: %s", drag1.getX(), drag1.getY());
-                        }
-                    }
-                    if (text != null) {
-                        FontManager.S14.drawCenteredStringWithShadow(text, drag1.getX() + 37, drag1.getY() - 12, -1);
-                    }
-
-                }
-            }
-        });
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
@@ -412,15 +308,6 @@ public class GuiChat extends GuiScreen
     public boolean doesGuiPauseGame()
     {
         return false;
-    }
-
-    @Override
-    protected void mouseReleased(int mouseX, int mouseY, int state) {
-        Client.getInstance().getDragManager().getDragList().forEach(drag -> {
-            if (drag.isDragging()) {
-                drag.setDragging(false);
-            }
-        });
     }
 
 }

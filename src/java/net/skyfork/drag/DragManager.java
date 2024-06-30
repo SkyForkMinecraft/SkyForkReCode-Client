@@ -18,7 +18,7 @@ public class DragManager {
 
     public DragManager() {
         dragList = new ArrayList<>();
-        dragList.add(new Rect());
+        // dragList.add(new Rect());
         Client.getInstance().getEventManager().register(new DragHandler());
     }
 
