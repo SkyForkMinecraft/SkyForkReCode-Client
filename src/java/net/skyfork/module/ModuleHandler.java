@@ -17,7 +17,7 @@ public class ModuleHandler implements Wrapper {
 
     @EventTarget
     private void onKeyInput(EventKeyInput event) {
-        Client.getInstance().getModuleManager().getModules().forEach(module ->  {
+        Client.getInstance().getModuleManager().getModules().values().forEach(module ->  {
             if (module.getKey() == event.getKey()) {
                 module.toggle();
                 ClientUtil.chat(module.getName() + " is " + module.isState());

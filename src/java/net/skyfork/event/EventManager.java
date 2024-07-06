@@ -1,6 +1,5 @@
 package net.skyfork.event;
 
-
 import net.skyfork.event.impl.Event;
 
 import java.lang.annotation.Annotation;

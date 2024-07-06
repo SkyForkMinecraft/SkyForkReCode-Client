@@ -27,7 +27,7 @@ public class ModuleListMod extends Module {
 
     @EventTarget
     private void onRender2D(EventRender2D event) {
-        for (Module module : Client.getInstance().getModuleManager().getModules()) {
+        for (Module module : Client.getInstance().getModuleManager().getModules().values()) {
             if (!module.isState()) continue;
             String moduleSpaceName = module.getSpacedName();
             fontRenderer.drawRightAlignedStringWithShadow(moduleSpaceName, pos.getXPos(), pos.getYPos() + y, -1);

@@ -7,6 +7,8 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 
+import static org.lwjgl.opengl.GL11.GL_QUADS;
+
 public class Gui
 {
     public static final ResourceLocation optionsBackground = new ResourceLocation("textures/gui/options_background.png");
@@ -70,6 +72,26 @@ public class Gui
         worldrenderer.pos((double)right, (double)top, 0.0D).endVertex();
         worldrenderer.pos((double)left, (double)top, 0.0D).endVertex();
         tessellator.draw();
+        GlStateManager.enableTexture2D();
+        GlStateManager.disableBlend();
+    }
+
+    public static void drawRect2(double x, double y, double width, double height, int color) {
+        GlStateManager.resetColor();
+        GlStateManager.enableBlend();
+        GlStateManager.disableTexture2D();
+        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+
+        Tessellator tessellator = Tessellator.getInstance();
+        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+
+        worldrenderer.begin(GL_QUADS, DefaultVertexFormats.POSITION_COLOR);
+        worldrenderer.pos(x, y, 0.0D).color(color).endVertex();
+        worldrenderer.pos(x, y + height, 0.0D).color(color).endVertex();
+        worldrenderer.pos(x + width, y + height, 0.0D).color(color).endVertex();
+        worldrenderer.pos(x + width, y, 0.0D).color(color).endVertex();
+        tessellator.draw();
+
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
     }

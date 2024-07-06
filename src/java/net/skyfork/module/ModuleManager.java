@@ -7,6 +7,7 @@ import net.skyfork.module.impl.render.ModuleListMod;
 import net.skyfork.module.impl.render.LogoMod;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -15,45 +16,30 @@ import java.util.List;
  */
 @Getter
 public class ModuleManager {
-    private final List<Module> modules;
+    private final HashMap<Class<? extends Module>,Module> modules;
 
     public ModuleManager() {
-        modules = new ArrayList<>();
+        modules = new HashMap<>();
         Client.getInstance().getEventManager().register(new ModuleHandler());
     }
 
     public void init() {
-        addModule(new SprintMod());
-        addModule(new LogoMod());
-        addModule(new ModuleListMod());
-    }
-
-    private void addModule(Module module) {
-        for (Module module1 : modules) {
-            if (module == module1) return;
-        }
-        modules.add(module);
+        modules.put(SprintMod.class,new SprintMod());
+        modules.put(LogoMod.class,new LogoMod());
+        modules.put(ModuleListMod.class,new ModuleListMod());
     }
 
     public List<Module> getModulesByCategory(Category category) {
         ArrayList<Module> modulescategory = new ArrayList<>();
-        for(Module module : getModules()) {
+        for(Module module : modules.values()) {
             if(module.getCategory() == category) modulescategory.add(module);
         }
         return modulescategory;
     }
 
-    public Module getModule(Module module) {
-        for (Module module2 : modules) {
-            if (module == module2) {
-                return module2;
-            }
-        }
-        return null;
-    }
-
     public Module getModule(String moduleName) {
-        for (Module module2 : modules) {
+        modules.get(moduleName);
+        for (Module module2 : modules.values()) {
             if (module2.getName() == moduleName) {
                 return module2;
             }

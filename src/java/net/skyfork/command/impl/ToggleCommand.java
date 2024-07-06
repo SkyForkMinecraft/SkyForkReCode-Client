@@ -49,7 +49,7 @@ public class ToggleCommand extends Command {
     @Override
     protected List<String> getComplete(int length) {
         if (length == 1) {
-            return Client.getInstance().getModuleManager().getModules().stream().map(Module::getName).collect(Collectors.toList());
+            return Client.getInstance().getModuleManager().getModules().values().stream().map(Module::getName).collect(Collectors.toList());
         } else if (length == 2) {
             return Arrays.asList(
                     "on",
