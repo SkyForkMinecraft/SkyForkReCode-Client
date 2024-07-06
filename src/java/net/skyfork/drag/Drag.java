@@ -2,34 +2,39 @@ package net.skyfork.drag;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.skyfork.Wrapper;
-import net.skyfork.event.impl.render.EventRender2D;
-import net.skyfork.util.misc.MouseUtil;
-
-/**
- * @author LangYa
- * @since 2024/6/9 下午7:33
- */
 
 @Getter
 @Setter
-public class Drag implements Wrapper {
-    private float x, y, width, height;
-    private int mouseX, mouseY;
-    private boolean dragging = MouseUtil.isHovering(x, y, width, height, mouseX, mouseY);
+public class Drag {
 
-    public void render(EventRender2D event) {}
+    private float x, y, initialX, initialY;
+    private float startX, startY;
+    private boolean dragging;
 
-    public void update() {
-        this.setX(this.mouseX - this.x);
-        this.setY(this.mouseY - this.y);
+    public Drag(float initialXVal, float initialYVal) {
+        this.initialX = initialXVal;
+        this.initialY = initialYVal;
+        this.x = initialXVal;
+        this.y = initialYVal;
     }
 
-    public void updateMousePos(int mouseX, int mouseY) {
+    public final void onDraw(int mouseX, int mouseY) {
         if (dragging) {
-            this.mouseX = mouseX;
-            this.mouseY = mouseY;
+            x = (mouseX - startX);
+            y = (mouseY - startY);
         }
+    }
+
+    public final void onClick(int mouseX, int mouseY, int button, boolean canDrag) {
+        if (button == 0 && canDrag) {
+            dragging = true;
+            startX = (int) (mouseX - x);
+            startY = (int) (mouseY - y);
+        }
+    }
+
+    public final void onRelease(int button) {
+        if (button == 0) dragging = false;
     }
 
 }

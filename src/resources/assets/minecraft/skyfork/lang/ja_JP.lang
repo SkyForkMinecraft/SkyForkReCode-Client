@@ -1,2 +1,4 @@
 client.name=スカイ・ブランチ
-module.legit.movement.sprint.name=スプリント
+module.move.sprint.name=スプリント
+module.render.logo.name=ロゴ
+module.render.modulelist.name=モジュールリスト

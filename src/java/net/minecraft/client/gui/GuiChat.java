@@ -11,6 +11,9 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.skyfork.Client;
 import net.skyfork.drag.Drag;
+import net.skyfork.drag.Dragging;
+import net.skyfork.util.animations.Direction;
+import net.skyfork.util.misc.MouseUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -38,6 +41,12 @@ public class GuiChat extends GuiScreen
 
     public void initGui()
     {
+        for (Dragging dragging : Client.getInstance().getDragManager().getDraggable().values()) {
+            if (!dragging.hoverAnimation.getDirection().equals(Direction.BACKWARDS)) {
+                dragging.hoverAnimation.setDirection(Direction.BACKWARDS);
+            }
+        }
+
         Keyboard.enableRepeatEvents(true);
         this.sentHistoryCursor = this.mc.ingameGUI.getChatGUI().getSentMessages().size();
         this.inputField = new GuiTextField(0, this.fontRendererObj, 4, this.height - 12, this.width - 4, 12);
@@ -150,6 +159,23 @@ public class GuiChat extends GuiScreen
             }
         }
 
+        boolean hoveringResetButton = MouseUtil.isHovering(width / 2f - 100, 20, 200, 20, mouseX, mouseY);
+        if (hoveringResetButton && mouseButton == 0) {
+            for (Dragging dragging : Client.getInstance().getDragManager().getDraggable().values()) {
+                dragging.setXPos(dragging.initialXVal);
+                dragging.setYPos(dragging.initialYVal);
+            }
+            return;
+        }
+
+
+        Client.getInstance().getDragManager().getDraggable().values().forEach(dragging -> {
+            if (dragging.getModule().isState()) {
+                dragging.onClick(mouseX, mouseY, mouseButton);
+            }
+        });
+
+
         this.inputField.mouseClicked(mouseX, mouseY, mouseButton);
         super.mouseClicked(mouseX, mouseY, mouseButton);
     }
@@ -251,18 +277,24 @@ public class GuiChat extends GuiScreen
                     this.historyBuffer = this.inputField.getText();
                 }
 
-                this.inputField.setText((String)this.mc.ingameGUI.getChatGUI().getSentMessages().get(i));
+                this.inputField.setText(this.mc.ingameGUI.getChatGUI().getSentMessages().get(i));
                 this.sentHistoryCursor = i;
             }
         }
     }
 
-    public void drawScreen(int mouseX, int mouseY, float partialTicks)
-    {
-        Client.getInstance().getDragManager().getDragList().forEach(drag -> {
-            drag.updateMousePos(mouseX,mouseY);
+    @Override
+    protected void mouseReleased(int mouseX, int mouseY, int state) {
+        Client.getInstance().getDragManager().getDraggable().values().forEach(dragging -> {
+            if (dragging.getModule().isState()) {
+                dragging.onRelease(state);
+            }
         });
 
+    }
+
+    public void drawScreen(int mouseX, int mouseY, float partialTicks)
+    {
         drawRect(2, this.height - 14, this.width - 2, this.height - 2, Integer.MIN_VALUE);
         this.inputField.drawTextBox();
         IChatComponent ichatcomponent = this.mc.ingameGUI.getChatGUI().getChatComponent(Mouse.getX(), Mouse.getY());
@@ -271,6 +303,13 @@ public class GuiChat extends GuiScreen
         {
             this.handleComponentHover(ichatcomponent, mouseX, mouseY);
         }
+
+        Client.getInstance().getDragManager().getDraggable().values().forEach(dragging -> {
+            if (dragging.getModule().isState()) {
+                dragging.onDraw(mouseX, mouseY);
+            }
+        });
+
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 

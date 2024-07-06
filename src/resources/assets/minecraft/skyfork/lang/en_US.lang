@@ -1,2 +1,4 @@
 client.name=SkyFork
-module.legit.movement.sprint.name=Sprint
+module.move.sprint.name=Sprint
+module.render.logo.name=Logo
+module.render.modulelist.name=ModuleList

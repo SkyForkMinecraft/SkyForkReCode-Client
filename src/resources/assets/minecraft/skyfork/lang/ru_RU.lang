@@ -1,2 +1,4 @@
 client.name=Небесная ветвь
-module.legit.movement.sprint.name=спринт
+module.move.sprint.name=спринт
+module.render.logo.name=логотип
+module.render.modulelist.name=Список модулей

@@ -22,6 +22,7 @@ public class Module implements Wrapper {
     private final String describe;
     private final Category category;
     private boolean state;
+    private boolean array;
     private int key;
     private final List<AbstractValue<?>> values = new ArrayList<>();
 
@@ -54,7 +55,7 @@ public class Module implements Wrapper {
     }
 
     public void toggle() {
-        this.state = !state;
+        setState(!state);
     }
 
 }

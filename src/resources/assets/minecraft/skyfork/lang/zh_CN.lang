@@ -1,2 +1,4 @@
 client.name=天空分支
-module.legit.movement.sprint.name=自动疾跑
+module.move.sprint.name=自动疾跑
+module.render.logo.name=标识
+module.render.modulelist.name=功能列表

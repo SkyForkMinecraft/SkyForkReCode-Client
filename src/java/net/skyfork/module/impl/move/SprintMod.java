@@ -1,4 +1,4 @@
-package net.skyfork.module.legit.movement;
+package net.skyfork.module.impl.move;
 
 import net.minecraft.client.settings.KeyBinding;
 import net.skyfork.event.EventTarget;
@@ -9,7 +9,7 @@ import net.skyfork.module.Module;
 
 public class SprintMod extends Module {
     public SprintMod() {
-        super(I18n.format("module.legit.movement.sprint.name"), "Keep running.", Category.Move);
+        super(I18n.format("module.move.sprint.name"), "Keep running.", Category.Move);
     }
 
     @Override

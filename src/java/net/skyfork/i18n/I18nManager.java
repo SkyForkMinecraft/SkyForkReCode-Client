@@ -22,15 +22,21 @@ public class I18nManager implements Wrapper {
 
     private static final Splitter splitter = Splitter.on('=').limit(2);
     private static final Pattern pattern = Pattern.compile("%(\\d+\\$)?[\\d.]*[df]");
-    public final LanguageType languageType = LanguageType.English;
+    public LanguageType languageType = LanguageType.Russian;
 
     public I18nManager() {
         I18n.properties = new HashMap<>();
         loadProperties();
     }
 
+    public void setLanguageType(LanguageType languageType) {
+        this.languageType = languageType;
+        loadProperties();
+    }
+
     @SneakyThrows
     private void loadProperties() {
+        System.out.println(languageType.name);
         ResourceLocation location = Client.getLocation("lang/" + languageType.resource + ".lang");
         InputStream inputStream = mc.getResourceManager().getResource(location).getInputStream();
         for (String line : IOUtils.readLines(inputStream, StandardCharsets.UTF_8)) {
@@ -40,9 +46,9 @@ public class I18nManager implements Wrapper {
 
                 if (astring != null && astring.length == 2)
                 {
-                    String s1 = astring[0];
-                    String s2 = pattern.matcher(astring[1]).replaceAll("%$1s");
-                    I18n.properties.put(s1, s2);
+                    String key = astring[0];
+                    String value = pattern.matcher(astring[1]).replaceAll("%$1s");
+                    I18n.properties.put(key, value);
                 }
             }
         }

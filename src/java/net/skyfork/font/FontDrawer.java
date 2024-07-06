@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.skyfork.Client;
 import net.skyfork.event.impl.misc.EventText;
 import net.skyfork.util.misc.ColorUtil;
-import net.skyfork.util.render.GLUtils;
+import net.skyfork.util.render.GLUtil;
 import net.skyfork.util.render.RenderUtil;
 import org.lwjgl.opengl.GL11;
 
@@ -82,7 +82,6 @@ public class FontDrawer {
     private final Font secondaryFont;
     private final int fontSize;
     private final int imageSize;
-    @Getter
     private final int halfHeight;
     private final boolean antiAliasing;
     private final boolean fractionalMetrics;
@@ -177,6 +176,10 @@ public class FontDrawer {
         return halfHeight;
     }
 
+    public int getHalfHeight() {
+        return halfHeight / 2;
+    }
+
     public void drawCenteredStringWithShadow(String s, double x, double y, int color) {
         drawStringWithShadow(s, x - (getStringWidth(s) / 2.0), y, color);
     }
@@ -208,7 +211,7 @@ public class FontDrawer {
         }
 
         preDraw();
-        GLUtils.color(color);
+        GLUtil.color(color);
 
         x *= 2.0;
         y *= 2.0;
@@ -266,7 +269,7 @@ public class FontDrawer {
         }
 
         preDraw();
-        GLUtils.color(color);
+        GLUtil.color(color);
 
         x *= 2.0;
         y *= 2.0;
@@ -311,7 +314,7 @@ public class FontDrawer {
                             italic = false;
                             underline = false;
                             strikethrough = false;
-                            GLUtils.color(color);
+                            GLUtil.color(color);
                             break;
                         default:
                             if (colorIndex < 16) {
@@ -320,7 +323,7 @@ public class FontDrawer {
                                 }
 
                                 int finalColor = COLORS[colorIndex];
-                                GLUtils.color(ColorUtil.getRed(finalColor), ColorUtil.getGreen(finalColor), ColorUtil.getBlue(finalColor), ColorUtil.getAlpha(color));
+                                GLUtil.color(ColorUtil.getRed(finalColor), ColorUtil.getGreen(finalColor), ColorUtil.getBlue(finalColor), ColorUtil.getAlpha(color));
                             }
                     }
                 }
@@ -351,7 +354,7 @@ public class FontDrawer {
 
     public void drawChar(char c, double x, double y, int color) {
         preDraw();
-        GLUtils.color(color);
+        GLUtil.color(color);
 
         x *= 2.0;
         y *= 2.0;
@@ -380,7 +383,7 @@ public class FontDrawer {
     }
 
     private void preDraw() {
-        GLUtils.pushMatrix();
+        GLUtil.pushMatrix();
         GlStateManager.enableBlend();
         GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GlStateManager.enableTexture2D();
@@ -389,7 +392,7 @@ public class FontDrawer {
 
     private void postDraw() {
         GlStateManager.disableBlend();
-        GLUtils.popMatrix();
+        GLUtil.popMatrix();
     }
 
     private Glyph getGlyph(char c) {

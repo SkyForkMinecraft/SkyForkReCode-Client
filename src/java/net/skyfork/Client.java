@@ -1,6 +1,7 @@
 package net.skyfork;
 
 import lombok.Getter;
+import lombok.Setter;
 import net.skyfork.combat.WorldManager;
 import net.skyfork.event.EventManager;
 
@@ -9,6 +10,7 @@ import net.minecraft.util.ResourceLocation;
 import net.skyfork.command.CommandManager;
 import net.skyfork.drag.DragManager;
 import net.skyfork.event.impl.render.EventRender2D;
+import net.skyfork.font.FontDrawer;
 import net.skyfork.i18n.I18n;
 import net.skyfork.i18n.I18nManager;
 import net.skyfork.mode.ModeManager;
@@ -21,6 +23,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
 
+import java.io.File;
+
 /**
  * @author LangYa
  * @since 2024/6/6 下午6:43
@@ -28,16 +32,18 @@ import org.lwjgl.opengl.Display;
 
 public class Client implements Wrapper {
     // info
-    public static final String name = "SkyFork";
+    public static String name = "SkyFork";
     public final static String color_name = "§r[§b" + name + "§r]";
     public static final String version = "1.0";
     public static final String web = "https://github.com/SkyForkMinecraft";
+    public static final File dir = new File(mc.mcDataDir, name);
 
     // logger
     public static Logger logManager;
 
     // managers
     @Getter
+    @Setter
     private I18nManager i18nManager;
     @Getter
     private ModeManager modeManager;
@@ -59,43 +65,29 @@ public class Client implements Wrapper {
     public boolean loaded;
 
     public static ResourceLocation getLocation(String location) {
-        return new ResourceLocation(name.toLowerCase() + "/" + location);
+        return new ResourceLocation("skyfork/" + location);
     }
 
     public void initClient() {
         instance = this;
         eventManager = new EventManager();
         i18nManager = new I18nManager();
-        eventManager.register(this);
-        logManager = LogManager.getLogger(Client.class);
-        Display.setTitle(String.format("%s - %s | 1.8.9", I18n.format("client.name"), version));
+        name = I18n.format("client.name");
+        Display.setTitle(String.format("%s - %s | 1.8.9", name, version));
         modeManager = new ModeManager();
         commandManager = new CommandManager();
+        dragManager = new DragManager();
+        dragManager.loadDragData();
         moduleManager = new ModuleManager();
         moduleManager.init();
-        dragManager = new DragManager();
         worldManager = new WorldManager();
         rankManager = new RankManager();
         loaded = true;
     }
 
-    public static void stopClient() {}
 
-    @EventTarget
-    public void onRender2D(EventRender2D event) {
-        if (modeManager.isDark()) {
-            FontManager.S30.drawString(I18n.format("client.name"), 10, 10,0);
-        } else {
-            FontManager.S30.drawString(I18n.format("client.name"), 10, 10,-1);
-        }
-
-        if (moduleManager != null) {
-            int y = 0;
-            for (Module module : moduleManager.getModules().values()) {
-                FontManager.S16.drawRightAlignedStringWithShadow(module.getName(), event.getScaledResolution().getScaledWidth() - 10, y, -1);
-                y += 16;
-            }
-        }
+    public void stopClient() {
+        dragManager.saveDragData();
     }
 
 }
