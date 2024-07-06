@@ -22,20 +22,14 @@ public class I18nManager implements Wrapper {
 
     private static final Splitter splitter = Splitter.on('=').limit(2);
     private static final Pattern pattern = Pattern.compile("%(\\d+\\$)?[\\d.]*[df]");
-    public LanguageType languageType = LanguageType.Russian;
 
     public I18nManager() {
         I18n.properties = new HashMap<>();
-        loadProperties();
-    }
-
-    public void setLanguageType(LanguageType languageType) {
-        this.languageType = languageType;
-        loadProperties();
+        loadProperties(LanguageType.English);
     }
 
     @SneakyThrows
-    private void loadProperties() {
+    public void loadProperties(LanguageType languageType) {
         System.out.println(languageType.name);
         ResourceLocation location = Client.getLocation("lang/" + languageType.resource + ".lang");
         InputStream inputStream = mc.getResourceManager().getResource(location).getInputStream();
@@ -52,6 +46,7 @@ public class I18nManager implements Wrapper {
                 }
             }
         }
+        Client.displayName = I18n.format("client.name");
     }
 
 }

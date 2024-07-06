@@ -9,10 +9,11 @@ import lombok.Getter;
 
 @Getter
 public enum  LanguageType {
-    English("English", "en_US"),
-    Chinese("Chinese", "zh_CN"),
-    Russian("Russian", "ru_RU"),
-    Japanese("JAPANESE", "ja_JP");
+    English("English", "en_us"),
+    Chinese("Chinese", "zh_cn"),
+    Russian("Russian", "ru_ru"),
+    Japanese("Japanese", "ja_jp"),
+    Arabian("Arabian","ar_ar");
 
     public final String name, resource;
     LanguageType(String name, String resource) {

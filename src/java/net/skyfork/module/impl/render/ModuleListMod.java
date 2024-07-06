@@ -37,7 +37,7 @@ public class ModuleListMod extends Module {
                 width = tempWidth;
                 pos.setWidth(width);
             }
-            pos.setHeight(y / 2F);
+            pos.setHeight(fontRenderer.getHeight() / 2F);
         }
     }
 }

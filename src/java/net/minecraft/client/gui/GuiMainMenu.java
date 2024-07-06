@@ -24,7 +24,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         drawBackground(0);
 
-        FontManager.S50.drawString(Client.name, this.width / 2F - FontManager.S50.getStringWidth(Client.name) / 2F, this.height / 5F, -1);
+        FontManager.S50.drawString(Client.displayName, this.width / 2F - FontManager.S50.getStringWidth(Client.name) / 2F, this.height / 5F, -1);
 
         super.drawScreen(mouseX, mouseY, partialTicks);
     }

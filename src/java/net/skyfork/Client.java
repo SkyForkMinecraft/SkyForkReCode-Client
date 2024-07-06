@@ -32,7 +32,8 @@ import java.io.File;
 
 public class Client implements Wrapper {
     // info
-    public static String name = "SkyFork";
+    public static final String name = "SkyFork";
+    public static String displayName;
     public final static String color_name = "§r[§b" + name + "§r]";
     public static final String version = "1.0";
     public static final String web = "https://github.com/SkyForkMinecraft";
@@ -65,14 +66,13 @@ public class Client implements Wrapper {
     public boolean loaded;
 
     public static ResourceLocation getLocation(String location) {
-        return new ResourceLocation("skyfork/" + location);
+        return new ResourceLocation(name.toLowerCase() + "/" + location);
     }
 
     public void initClient() {
         instance = this;
         eventManager = new EventManager();
         i18nManager = new I18nManager();
-        name = I18n.format("client.name");
         Display.setTitle(String.format("%s - %s | 1.8.9", name, version));
         modeManager = new ModeManager();
         commandManager = new CommandManager();

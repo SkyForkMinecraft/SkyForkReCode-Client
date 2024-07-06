@@ -17,16 +17,15 @@ public class LogoMod extends Module {
 
     private final Dragging pos = Client.getInstance().getDragManager().createDrag(this, "logo", 5, 5);
     private final int textColor = Client.getInstance().getModeManager().isDark() ? 1 : 0;
-    private final String renderText = I18n.format("client.name");
 
     public LogoMod() {
         super(I18n.format("module.render.logo.name"), "Show the logo of the game", Category.Render);
-        pos.setWidth(FontManager.S30.getStringWidth(renderText));
+        pos.setWidth(FontManager.S30.getStringWidth(Client.displayName));
         pos.setHeight(FontManager.S30.getHeight());
     }
 
     @EventTarget
     private void onRender2D(EventRender2D event) {
-        FontManager.S30.drawStringWithShadow(renderText, pos.getXPos(), pos.getYPos(),textColor);
+        FontManager.S30.drawStringWithShadow(Client.displayName, pos.getXPos(), pos.getYPos(),textColor);
     }
 }
