@@ -1,20 +1,21 @@
 package net.skyfork.module;
 
-import lombok.Getter;
+import net.skyfork.i18n.I18n_Client;
 
 public enum Category {
-    Combat("战斗"),
-    Move("移动"),
-    Client("客户端"),
-    Render("视觉"),
-    Player("玩家");
+    Boost("module.category.boost"),
+    Client("module.category.client"),
+    Render("module.category.render"),
+    Player("module.category.player");
 
     Category(String name) {
         this.name = name;
     }
 
-    @Getter
-    private String name;
+    private final String name;
 
+    public String getName() {
+        return I18n_Client.format(name);
+    }
 
 }

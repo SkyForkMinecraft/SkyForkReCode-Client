@@ -1,4 +1,15 @@
 client.name=Небесная ветвь
+mainMenu.clientLanguage=Язык клиента
+module.category.boost=поддержка
+module.category.client=клиент
+module.category.render=визуализация
+module.category.player=игрок
+module.clickgui.renderText.canArray=Видимость списка
+module.clickgui.renderText.notArray=Скрытость списка
+module.clickgui.renderText.arrayRender=Отображение списка
 module.move.sprint.name=спринт
 module.render.logo.name=логотип
 module.render.modulelist.name=Список модулей
+module.clickgui.renderText.key=Клавиша
+module.clickgui.renderText.noneKey=Не назначено
+module.clickgui.renderText.pressKey=Нажмите на клавишу, которую вы хотите назначить...

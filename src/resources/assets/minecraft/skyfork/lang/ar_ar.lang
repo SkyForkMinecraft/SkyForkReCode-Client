@@ -1,4 +1,15 @@
 client.name=سكاي فورك
+mainMenu.clientLanguage=لغة العميل
+module.category.boost=الدعم
+module.category.client=العميل
+module.category.render=الرسوم
+module.category.player=اللاعب
+module.clickgui.renderText.canArray=يمكن رؤية القائمة
+module.clickgui.renderText.notArray=لا يمكن رؤية القائمة
+module.clickgui.renderText.arrayRender=عرض القائمة
+module.clickgui.renderText.key=مفتاح
+module.clickgui.renderText.noneKey=غير مرتبط
+module.clickgui.renderText.pressKey=اضغط على المفتاح الذي ترغب في ربطه...
 module.move.sprint.name=سبرينت
 module.render.logo.name=شعار
 module.render.modulelist.name=قائمة الوحدات

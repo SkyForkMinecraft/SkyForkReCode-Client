@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.skyfork.Client;
 import net.skyfork.Wrapper;
+import net.skyfork.i18n.I18n_Client;
 import net.skyfork.value.AbstractValue;
 
 import java.util.ArrayList;
@@ -18,7 +19,6 @@ import java.util.List;
 @Setter
 public class Module implements Wrapper {
     private final String name;
-    private final String spacedName;
     private final String describe;
     private final Category category;
     private boolean state;
@@ -26,18 +26,20 @@ public class Module implements Wrapper {
     private int key;
     private final List<AbstractValue<?>> values = new ArrayList<>();
 
-    public Module(String spacedName, String describe, Category category) {
-        this.name = spacedName.replaceAll(" ", "");
-        this.spacedName = spacedName;
+    public Module(String name, String describe, Category category) {
+        this.name = name;
         this.describe = describe;
         this.category = category;
     }
 
-    public Module(String spacedName, Category category) {
-        this.name = spacedName.replaceAll(" ", "");
-        this.spacedName = spacedName;
+    public Module(String name, Category category) {
+        this.name = name;
         this.describe = null;
         this.category = category;
+    }
+
+    public String getName() {
+        return I18n_Client.format(name);
     }
 
     public void onEnable() {}

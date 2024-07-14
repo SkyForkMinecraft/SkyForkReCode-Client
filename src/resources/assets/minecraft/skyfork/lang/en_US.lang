@@ -1,4 +1,15 @@
 client.name=SkyFork
+mainMenu.clientLanguage=Client Language
+module.category.boost=Boost
+module.category.client=Client
+module.category.render=Render
+module.category.player=Player
+module.clickgui.renderText.canArray=List Visible
+module.clickgui.renderText.notArray=List Not Visible
+module.clickgui.renderText.arrayRender=List Display
+module.clickgui.renderText.key=Key
+module.clickgui.renderText.noneKey=None
+module.clickgui.renderText.pressKey=Press bind key...
 module.move.sprint.name=Sprint
 module.render.logo.name=Logo
 module.render.modulelist.name=ModuleList

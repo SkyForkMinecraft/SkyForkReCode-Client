@@ -2,8 +2,7 @@ package net.skyfork.module;
 
 import lombok.Getter;
 import net.skyfork.Client;
-import net.skyfork.module.impl.move.SprintMod;
-import net.skyfork.module.impl.render.ModuleListMod;
+import net.skyfork.module.impl.boost.SprintMod;
 import net.skyfork.module.impl.render.LogoMod;
 
 import java.util.ArrayList;
@@ -26,7 +25,7 @@ public class ModuleManager {
     public void init() {
         modules.put(SprintMod.class,new SprintMod());
         modules.put(LogoMod.class,new LogoMod());
-        modules.put(ModuleListMod.class,new ModuleListMod());
+      //  modules.put(ModuleListMod.class,new ModuleListMod());
     }
 
     public List<Module> getModulesByCategory(Category category) {

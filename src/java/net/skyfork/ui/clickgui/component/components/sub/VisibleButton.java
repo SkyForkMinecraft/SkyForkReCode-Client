@@ -2,6 +2,7 @@ package net.skyfork.ui.clickgui.component.components.sub;
 
 import net.minecraft.client.gui.Gui;
 import net.skyfork.font.FontManager;
+import net.skyfork.i18n.I18n_Client;
 import net.skyfork.module.Module;
 import org.lwjgl.opengl.GL11;
 import net.skyfork.ui.clickgui.component.Component;
@@ -35,8 +36,8 @@ public class VisibleButton extends Component {
         Gui.drawRect(parent.parent.getX(), parent.parent.getY() + offset, parent.parent.getX() + 2, parent.parent.getY() + offset + 12, 0xFF111111);
         GL11.glPushMatrix();
 
-        String s = module.isArray() ? "可见" : "不可见";
-        FontManager.S18.drawStringWithShadow("列表显示: " + s, (parent.parent.getX() + 7), (parent.parent.getY() + offset + 2) + 1, -1);
+        String s = module.isArray() ? I18n_Client.format("module.clickgui.renderText.canArray") : I18n_Client.format("module.clickgui.renderText.notArray");
+        FontManager.S18.drawStringWithShadow(I18n_Client.format("module.clickgui.renderText.arrayRender") + ": " + s, (parent.parent.getX() + 7), (parent.parent.getY() + offset + 2) + 1, -1);
         GL11.glPopMatrix();
     }
 

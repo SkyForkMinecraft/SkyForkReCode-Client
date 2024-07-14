@@ -5,7 +5,6 @@ import net.skyfork.drag.Dragging;
 import net.skyfork.event.EventTarget;
 import net.skyfork.event.impl.render.EventRender2D;
 import net.skyfork.font.FontManager;
-import net.skyfork.i18n.I18n;
 import net.skyfork.module.Category;
 import net.skyfork.module.Module;
 
@@ -16,16 +15,15 @@ import net.skyfork.module.Module;
 public class LogoMod extends Module {
 
     private final Dragging pos = Client.getInstance().getDragManager().createDrag(this, "logo", 5, 5);
-    private final int textColor = Client.getInstance().getModeManager().isDark() ? 1 : 0;
 
     public LogoMod() {
-        super(I18n.format("module.render.logo.name"), "Show the logo of the game", Category.Render);
-        pos.setWidth(FontManager.S30.getStringWidth(Client.displayName));
-        pos.setHeight(FontManager.S30.getHeight());
+        super("module.render.logo.name", "Show the logo of the game", Category.Render);
     }
 
     @EventTarget
     private void onRender2D(EventRender2D event) {
-        FontManager.S30.drawStringWithShadow(Client.displayName, pos.getXPos(), pos.getYPos(),textColor);
+        pos.setWidth(FontManager.S30.getStringWidth(Client.displayName));
+        pos.setHeight(FontManager.S30.getHeight());
+        FontManager.S30.drawStringWithShadow(Client.displayName, pos.getXPos(), pos.getYPos(),-1);
     }
 }

@@ -2,6 +2,7 @@ package net.skyfork.ui.clickgui.component.components.sub;
 
 import net.minecraft.client.gui.Gui;
 import net.skyfork.font.FontManager;
+import net.skyfork.i18n.I18n_Client;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import net.skyfork.ui.clickgui.component.Component;
@@ -35,8 +36,8 @@ public class Keybind extends Component {
         GL11.glPushMatrix();
 
         String s = Keyboard.getKeyName(parent.module.getKey());
-        String s1 = s.equals("NONE") ? "未绑定" : s;
-        FontManager.S18.drawStringWithShadow(binding ? "按你要绑定的按键..." : ("按键: " + s1), (parent.parent.getX() + 7) , (parent.parent.getY() + offset + 2)  + 1, -1);
+        String s1 = s.equals("NONE") ? I18n_Client.format("module.clickgui.renderText.noneKey") : s;
+        FontManager.S18.drawStringWithShadow(binding ? I18n_Client.format("module.clickgui.renderText.pressKey") : (I18n_Client.format("module.clickgui.renderText.key") + ": " + s1), (parent.parent.getX() + 7) , (parent.parent.getY() + offset + 2)  + 1, -1);
         GL11.glPopMatrix();
     }
 

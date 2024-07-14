@@ -5,21 +5,16 @@ import lombok.Setter;
 import net.skyfork.combat.WorldManager;
 import net.skyfork.event.EventManager;
 
-import net.skyfork.event.EventTarget;
 import net.minecraft.util.ResourceLocation;
 import net.skyfork.command.CommandManager;
 import net.skyfork.drag.DragManager;
+import net.skyfork.event.EventTarget;
 import net.skyfork.event.impl.render.EventRender2D;
-import net.skyfork.font.FontDrawer;
-import net.skyfork.i18n.I18n;
+import net.skyfork.font.FontManager;
 import net.skyfork.i18n.I18nManager;
 import net.skyfork.mode.ModeManager;
-import net.skyfork.mode.ThemeMode;
-import net.skyfork.module.Module;
 import net.skyfork.module.ModuleManager;
-import net.skyfork.font.FontManager;
 import net.skyfork.user.RankManager;
-import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
 
@@ -73,18 +68,18 @@ public class Client implements Wrapper {
         instance = this;
         eventManager = new EventManager();
         i18nManager = new I18nManager();
+        eventManager.register(this);
         Display.setTitle(String.format("%s - %s | 1.8.9", name, version));
         modeManager = new ModeManager();
         commandManager = new CommandManager();
         dragManager = new DragManager();
-        dragManager.loadDragData();
         moduleManager = new ModuleManager();
         moduleManager.init();
+        dragManager.loadDragData();
         worldManager = new WorldManager();
         rankManager = new RankManager();
         loaded = true;
     }
-
 
     public void stopClient() {
         dragManager.saveDragData();

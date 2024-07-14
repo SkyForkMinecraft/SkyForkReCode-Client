@@ -2,7 +2,7 @@ package net.skyfork.command.impl;
 
 import net.skyfork.Client;
 import net.skyfork.command.Command;
-import net.skyfork.i18n.I18n;
+import net.skyfork.i18n.I18n_Client;
 import net.skyfork.module.Module;
 import net.skyfork.util.misc.ClientUtil;
 import org.lwjgl.input.Keyboard;
@@ -22,24 +22,24 @@ public class BindCommand extends Command {
             Module module = Client.getInstance().getModuleManager().getModule(parma[1]);
 
             if (module == null) {
-                ClientUtil.chatPrefix(I18n.format("command.bind.error1"));
+                ClientUtil.chatPrefix(I18n_Client.format("command.bind.error1"));
             } else {
                 if (parma.length > 2) {
                     final int keyIndex = Keyboard.getKeyIndex(parma[2].toUpperCase());
                     if (keyIndex != 0) {
                         module.setKey(keyIndex);
-                        ClientUtil.chatPrefix(I18n.format("command.bind.success1"));
+                        ClientUtil.chatPrefix(I18n_Client.format("command.bind.success1"));
                     } else {
                         module.setKey(0);
-                        ClientUtil.chatPrefix(I18n.format("command.bind.success2"));
+                        ClientUtil.chatPrefix(I18n_Client.format("command.bind.success2"));
                     }
                 } else {
                     module.setKey(0);
-                    ClientUtil.chatPrefix(I18n.format("command.bind.success2"));
+                    ClientUtil.chatPrefix(I18n_Client.format("command.bind.success2"));
                 }
             }
         } else {
-            ClientUtil.chatPrefix(I18n.format("command.bind.error2"));
+            ClientUtil.chatPrefix(I18n_Client.format("command.bind.error2"));
         }
     }
 

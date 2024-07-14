@@ -1,4 +1,15 @@
 client.name=スカイ・ブランチ
+mainMenu.clientLanguage=クライアント言語
+module.category.boost=補助
+module.category.client=クライアント
+module.category.render=ビジュアル
+module.category.player=プレイヤー
+module.clickgui.renderText.canArray=リスト表示可能
+module.clickgui.renderText.notArray=リスト非表示
+module.clickgui.renderText.arrayRender=リスト表示
+module.clickgui.renderText.key=キー
+module.clickgui.renderText.noneKey=未設定
+module.clickgui.renderText.pressKey=キーを押してください…
 module.move.sprint.name=スプリント
 module.render.logo.name=ロゴ
 module.render.modulelist.name=モジュールリスト

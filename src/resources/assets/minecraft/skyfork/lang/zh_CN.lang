@@ -1,4 +1,15 @@
 client.name=天空分支
+mainMenu.clientLanguage=客户端语言
+module.category.boost=辅助
+module.category.client=客户端
+module.category.render=视觉
+module.category.player=玩家
+module.clickgui.renderText.canArray=列表可见
+module.clickgui.renderText.notArray=列表不可见
+module.clickgui.renderText.arrayRender=列表显示
+module.clickgui.renderText.key=按键
+module.clickgui.renderText.noneKey=未绑定
+module.clickgui.renderText.pressKey=按你要绑定的按键...
 module.move.sprint.name=自动疾跑
 module.render.logo.name=标识
 module.render.modulelist.name=功能列表

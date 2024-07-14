@@ -24,7 +24,7 @@ public class I18nManager implements Wrapper {
     private static final Pattern pattern = Pattern.compile("%(\\d+\\$)?[\\d.]*[df]");
 
     public I18nManager() {
-        I18n.properties = new HashMap<>();
+        I18n_Client.properties = new HashMap<>();
         loadProperties(LanguageType.English);
     }
 
@@ -42,11 +42,11 @@ public class I18nManager implements Wrapper {
                 {
                     String key = astring[0];
                     String value = pattern.matcher(astring[1]).replaceAll("%$1s");
-                    I18n.properties.put(key, value);
+                    I18n_Client.properties.put(key, value);
                 }
             }
         }
-        Client.displayName = I18n.format("client.name");
+        Client.displayName = I18n_Client.format("client.name");
     }
 
 }

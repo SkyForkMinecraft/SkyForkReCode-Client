@@ -6,7 +6,7 @@ import net.skyfork.event.EventTarget;
 import net.skyfork.event.impl.render.EventRender2D;
 import net.skyfork.font.FontDrawer;
 import net.skyfork.font.FontManager;
-import net.skyfork.i18n.I18n;
+import net.skyfork.i18n.I18n_Client;
 import net.skyfork.module.Category;
 import net.skyfork.module.Module;
 
@@ -22,17 +22,17 @@ public class ModuleListMod extends Module {
     private float width = 0;
 
     public ModuleListMod() {
-        super(I18n.format("module.render.modulelist.name"), "Show the module list of the game", Category.Render);
+        super(I18n_Client.format("module.render.modulelist.name"), "Show the module list of the game", Category.Render);
     }
 
     @EventTarget
     private void onRender2D(EventRender2D event) {
         for (Module module : Client.getInstance().getModuleManager().getModules().values()) {
             if (!module.isState()) continue;
-            String moduleSpaceName = module.getSpacedName();
-            fontRenderer.drawRightAlignedStringWithShadow(moduleSpaceName, pos.getXPos(), pos.getYPos() + y, -1);
+            String moduleName = module.getName();
+            fontRenderer.drawRightAlignedStringWithShadow(moduleName, pos.getXPos(), pos.getYPos() + y, -1);
             y += fontRenderer.getHeight();
-            float tempWidth = fontRenderer.getStringWidth(moduleSpaceName);
+            float tempWidth = fontRenderer.getStringWidth(moduleName);
             if (tempWidth > width) {
                 width = tempWidth;
                 pos.setWidth(width);
